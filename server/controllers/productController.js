@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const ErrorHandler = require("../utils/errorHandler");
 
 const productController = {
     getAllProduct : async (req,res) => {
@@ -9,9 +10,14 @@ const productController = {
 
     },
 
-    getProduct : async(req, res) => {
+    getProduct : async(req, res, next) => {
         try {
             const product = await Product.findById(req.params.id);
+
+            if (!product) {
+                return next(new ErrorHandler("Product not found", 404))
+            }
+
             res.status(200).json(product);
         }catch (err) {
             res.status(500).json(err);
@@ -20,6 +26,7 @@ const productController = {
 
     createProduct : async (req, res) => {
         try {
+            req.body.user = req.user.id;
             const newProduct = new Product(req.body)
             const savedProduct = await newProduct.save()
             res.status(200).json(savedProduct);
