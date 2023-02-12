@@ -1,15 +1,9 @@
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const User = require("../models/user");
+const ErrorHandler = require("../utils/errorHandler");
 const sendToken = require("../utils/jwtToken");
 
 const userController = {
-    getAllUser : async (req,res) => {
-        try {
-            const users = await User.find();
-            res.status(200).send(users);
-        } catch (err) {res.status(500).json(err)}
-
-    },
     createUser : async (req,res) => {
         try {
             const {name, email, password} = req.body;
@@ -20,7 +14,7 @@ const userController = {
 
             const token = user.getJWTToken();
 
-            res.status(200).send(user);
+            sendToken(user,200,res);
         } catch (err) {
             res.status(500).json(err);
         }
@@ -62,7 +56,107 @@ const userController = {
             success:true,
             message: "Logged Out",
         })
-    })
+    }),
+
+    getUserDetail: catchAsyncError(async (req, res, next) => {
+        console.log(req.user);
+        const user = await User.findById(req.user.id);
+        res.status(200).json({
+            success: true,
+            user,
+        })
+    }),
+
+    updateUserPassword: catchAsyncError( async (req,res,next) => {
+        const user = await User.findById(req.user.id); 
+
+        const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+        if (!isPasswordMatched) {
+            return next (new ErrorHandler("Old password is incorrect", 400));
+        }
+
+        if (req.body.newPassword !==  req.body.confirmPassword ) {
+            return next(new ErrorHandler("Password doesn't match", 400));
+        }
+
+        user.password = req.body.newPassword;
+
+        await user.save();
+         
+        sendToken(user, 200, res);
+    }),
+
+    updateUserProfile : catchAsyncError(async (req,res,next) => {
+        const newUserData = {
+            name: req.body.name,
+        };
+        const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        }); 
+
+        res.status(200).json({
+            success: true,
+            user
+        })
+
+    }),
+
+    //Admin
+    getAllUser : async (req,res) => {
+        try {
+            const users = await User.find();
+            res.status(200).send(users);
+        } catch (err) {res.status(500).json(err)}
+
+    },
+
+    getSingleUser: catchAsyncError(async (req,res,next) => {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return next(new ErrorHandler("ID not found"));
+        }
+
+        res.status(200).json({
+            success: true,
+            user
+        })
+    }),
+
+    updateUserProfileAdmin : catchAsyncError(async (req,res,next) => {
+        const newUserData = {
+            name: req.body.name,
+            role: req.body.role,
+        };
+        const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        }); 
+
+        res.status(200).json({
+            success: true,
+            user
+        })
+    }),
+
+    deleteUser: catchAsyncError(async (req,res,next) => {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return next(new ErrorHandler("User does not exist"));
+        }
+
+        await user.remove();
+
+        res.status(200).json({
+            success: true,
+        })
+    }),
+
 }
 
 module.exports = userController;

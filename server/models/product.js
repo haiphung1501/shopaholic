@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         maxLength: 8
     },
-    rating: {
+    ratings: {
         type: Number,
         default: 0
     },
@@ -24,6 +24,7 @@ const productSchema = new mongoose.Schema({
         },
         url: {
             type: String,
+            default: "https://static.thenounproject.com/png/2503776-200.png"
         }
     }],
     category: {
@@ -34,12 +35,16 @@ const productSchema = new mongoose.Schema({
         maxLength: 4,
         default: 1,
     },
-    views: {
+    numOfReviews: {
         type: Number,
         default: 0,
     },
     reviews: [
         {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+            },
             name: {
                 type:String,
             },
