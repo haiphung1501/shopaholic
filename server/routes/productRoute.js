@@ -10,6 +10,10 @@ router.post("/",authController.isAuthenticatedUser, authController.authorizeRole
 
 router.put("/review", authController.isAuthenticatedUser, productController.createReview);
 
+router.delete("/review", authController.isAuthenticatedUser, productController.deleteReview);
+
+router.get("/reviews", productController.getProductReviews);
+
 router.put("/:id", authController.isAuthenticatedUser, productController.updateProduct);
 
 router.delete("/:id",authController.isAuthenticatedUser, productController.deleteProduct)
