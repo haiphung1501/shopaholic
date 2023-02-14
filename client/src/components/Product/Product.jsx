@@ -8,39 +8,46 @@ import { Box, CardActionArea, Container } from '@mui/material';
 import ReactStars from "react-rating-stars-component"
 
 
-const options = {
+
+export default function Product({ product }) {
+  const options = {
     edit: false,
     color: "rgba(20,20,20,0.1)",
     activeColor: "tomato",
-    value: 2.5,
+    value: product.rating,
     isHalf: true,
     size: window.innerWidth < 600 ? 15 : 20,
-}
-export default function Product({product}) {
+  }
   return <>
-    <Card sx={{ width: 270, mt: 2 }}>
-      <CardActionArea>
-            <CardMedia
+    <Link to={product._id} style={{ textDecoration: 'none' }}>
+      <Card sx={{ height: 400, width: 270, mt: 2 }}>
+        <CardActionArea>
+          <CardMedia
             component="img"
-            height= "150"
+            height="150"
             width="150"
-            image={product.image[0].url}
+            image={product.images[0].url}
             alt="green iguana"
-            />
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            {product.name}
-          </Typography>
-            <ReactStars {...options}/>
-            <Typography gutterBottom variant="h6" component="span">
-            {product.price}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h4" component="div">
+              {product.name}
+            </Typography>
+            <Box >
+              <ReactStars {...options} component="span" />
+              <Typography gutterBottom variant="h6" component="span">
+                {product.numOfReviews} Reviews
+              </Typography>
+            </Box>
 
-    <Link href="/hello" className='productCard' to={product._id}>
+            <Typography gutterBottom variant="h6" component="span">
+              {product.price}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     </Link>
+
   </>
 
 }
