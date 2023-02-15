@@ -10,6 +10,7 @@ import Home from "./components/Home/Home";
 import Container from "@mui/material/Container";
 import Register from "./components/User/Register";
 import Login from "./components/User/Login";
+import ProductDetail from "./components/Product/ProductDetail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Container maxWidth="lg">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
         </Routes>

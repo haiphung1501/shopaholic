@@ -19,7 +19,7 @@ export default function Product({ product }) {
     size: window.innerWidth < 600 ? 15 : 20,
   }
   return <>
-    <Link to={product._id} style={{ textDecoration: 'none' }}>
+    <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
       <Card sx={{ height: 400, width: 270, mt: 2 }}>
         <CardActionArea>
           <CardMedia

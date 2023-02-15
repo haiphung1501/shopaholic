@@ -7,17 +7,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import { allProductFailed, allProductRequest, allProductSuccess, clearError } from '../Product/productSlice'
 import { getAllProductReq } from '../../apis'
 import { useEffect } from 'react'
-import { useState } from 'react'
+import { useAlert } from 'react-alert'
 
 
 export default function Home() {
 
     const dispatch = useDispatch()
+    const alert = useAlert()
     const { productsCount, products, loading, error } = useSelector(state => state.product)
 
     console.log(products)
 
     useEffect(() => {
+
+        if (error) { return alert.error(error); }
         dispatch(allProductRequest())
         getAllProductReq()
             .then(({ data }) => {
@@ -26,7 +29,7 @@ export default function Home() {
             .catch((error) => {
                 dispatch(allProductFailed(error))
             })
-    }, [dispatch])
+    }, [dispatch, error, alert])
 
     if (loading) return <Loader />
     return <Fragment>
