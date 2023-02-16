@@ -1,6 +1,6 @@
 import { Box, Card, Grid, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
-import Product from '../Product/Product'
+import Product from '../Product/ProductCard'
 import Loader from '../layout/Loader'
 import { useSelector, useDispatch } from 'react-redux'
 // import productSlice from '../Product/productSlice'
@@ -8,6 +8,7 @@ import { allProductFailed, allProductRequest, allProductSuccess, clearError } fr
 import { getAllProductReq } from '../../apis'
 import { useEffect } from 'react'
 import { useAlert } from 'react-alert'
+import ProductCard from '../Product/ProductCard'
 
 
 export default function Home() {
@@ -49,7 +50,7 @@ export default function Home() {
             {
                 products && products.map((product, index) => {
                     return (
-                        <Product key={index} product={product} />
+                        <ProductCard key={index} product={product} />
                     )
                 })
             }

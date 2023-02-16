@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import ProductDetail from "./components/Product/ProductDetail";
+import ProductList from "./components/Product/ProductList";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/products/:keyword" element={<ProductList />} />
         </Routes>
       </Container>
     </BrowserRouter>

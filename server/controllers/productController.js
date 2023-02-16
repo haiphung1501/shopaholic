@@ -6,7 +6,9 @@ const productController = {
   getAllProduct: async (req, res) => {
     try {
       const productsCount = await Product.countDocuments();
-      const products = await Product.find();
+      const { search } = req.query;
+      const query = search ? { name: { $regex: search, $options: "i" } } : {};
+      const products = await Product.find(query);
       res.status(200).json({
         success: true,
         products,

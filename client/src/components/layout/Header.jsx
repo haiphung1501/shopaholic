@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,6 +16,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { Link, useNavigate } from 'react-router-dom'
+import { Stack } from '@mui/material';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,12 +60,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function Header() {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+  const SearchSubmitHandler = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      navigate(`/products/${keyword}`)
+    } else {
+      navigate('/products')
+    }
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -167,23 +184,34 @@ export default function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            MUI
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <Typography
+              color='white'
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              SHOPAHOLIC
+            </Typography>
+          </Link>
+
+          <Search style={{ display: 'inline' }}>
+            <Stack direction="row">
+              <IconButton onClick={SearchSubmitHandler}>
+                <SearchIcon style={{ color: 'white' }} />
+              </IconButton>
+              <StyledInputBase
+                component='span'
+                style={{ width: 600 }}
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+            </Stack>
           </Search>
+
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
