@@ -1,24 +1,46 @@
-const express = require('express');
-const productController = require('../controllers/productController');
-const authController = require('../middlewares/auth');
+const express = require("express");
+const productController = require("../controllers/productController");
+const authController = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.get("/",productController.getAllProduct);
+router.get("/category", productController.getAllCategory);
 
-router.post("/",authController.isAuthenticatedUser, authController.authorizeRoles("admin"), productController.createProduct);
+router.get("/", productController.getAllProduct);
 
-router.put("/review", authController.isAuthenticatedUser, productController.createReview);
+router.post(
+  "/",
+  authController.isAuthenticatedUser,
+  authController.authorizeRoles("admin"),
+  productController.createProduct
+);
 
-router.delete("/review", authController.isAuthenticatedUser, productController.deleteReview);
+router.put(
+  "/review",
+  authController.isAuthenticatedUser,
+  productController.createReview
+);
+
+router.delete(
+  "/review",
+  authController.isAuthenticatedUser,
+  productController.deleteReview
+);
 
 router.get("/reviews", productController.getProductReviews);
 
-router.put("/:id", authController.isAuthenticatedUser, productController.updateProduct);
+router.put(
+  "/:id",
+  authController.isAuthenticatedUser,
+  productController.updateProduct
+);
 
-router.delete("/:id",authController.isAuthenticatedUser, productController.deleteProduct)
+router.delete(
+  "/:id",
+  authController.isAuthenticatedUser,
+  productController.deleteProduct
+);
 
 router.get("/:id", productController.getProduct);
 
-
-module.exports = router
+module.exports = router;

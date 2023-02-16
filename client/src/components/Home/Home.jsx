@@ -46,15 +46,16 @@ export default function Home() {
             Items of the day
         </Typography>
 
-        <Grid container sx={{ justifyContent: 'space-between' }}>
+        <Grid container spacing={2} sx={{ mt: 3 }}>
             {
                 products && products.map((product, index) => {
                     return (
-                        <ProductCard key={index} product={product} />
+                        <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                            <ProductCard product={product} />
+                        </Grid>
                     )
                 })
             }
-
         </Grid>
     </Fragment>
 }

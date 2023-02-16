@@ -5,10 +5,10 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 const productController = {
   getAllProduct: async (req, res) => {
     try {
-      const productsCount = await Product.countDocuments();
       const { search } = req.query;
       const query = search ? { name: { $regex: search, $options: "i" } } : {};
       const products = await Product.find(query);
+      const productsCount = await Product.countDocuments(query);
       res.status(200).json({
         success: true,
         products,
@@ -18,7 +18,13 @@ const productController = {
       res.status(500).json(err);
     }
   },
-
+  getAllCategory: catchAsyncError(async (req, res) => {
+    const categories = await Product.find().distinct("category");
+    res.status(200).json({
+      success: true,
+      categories,
+    });
+  }),
   getProduct: async (req, res, next) => {
     try {
       const product = await Product.findById(req.params.id);

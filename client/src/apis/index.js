@@ -7,3 +7,6 @@ export const getAllProductReq = (keyword = "") =>
 
 export const getProductDetailReq = (id) =>
   axios.get(`http://localhost:4000/api/product/${id}`);
+
+export const getAllCategory = () =>
+  axios.get("http://localhost:4000/api/product/category");
