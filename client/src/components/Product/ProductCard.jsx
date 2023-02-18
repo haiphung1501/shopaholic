@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
     edit: false,
     color: "rgba(20,20,20,0.1)",
     activeColor: "tomato",
-    value: product.rating,
+    value: product.ratings,
     isHalf: true,
     size: window.innerWidth < 600 ? 15 : 20,
   }
@@ -30,18 +30,17 @@ export default function ProductCard({ product }) {
             alt="green iguana"
           />
           <CardContent>
-            <Typography gutterBottom variant="h4" component="div">
+            <Typography gutterBottom variant="h5" fontWeight='bold' component="div">
               {product.name}
             </Typography>
             <Box >
               <ReactStars {...options} component="span" />
-              <Typography gutterBottom variant="h6" component="span">
+              <Typography gutterBottom variant="h6" component="span" fontWeight='light'>
                 {product.numOfReviews} Reviews
               </Typography>
             </Box>
-
-            <Typography gutterBottom variant="h6" component="span">
-              {product.price}
+            <Typography color='primary' gutterBottom variant="h6" component="span">
+              {`${product.price} VNĐ`}
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -4,159 +4,155 @@ const ErrorHandler = require("../utils/errorHandler");
 const sendToken = require("../utils/jwtToken");
 
 const userController = {
-    createUser : async (req,res) => {
-        try {
-            const {name, email, password} = req.body;
+  createUser: async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
 
-            const user = await User.create({
-                name, email, password,
-            })
+      const user = await User.create({
+        name,
+        email,
+        password,
+      });
+      sendToken(user, 200, res);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  loginUser: async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-            const token = user.getJWTToken();
+      if (!email || !password) {
+        return next();
+      }
 
-            sendToken(user,200,res);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    loginUser : async (req, res) => {
-        try {
-            const {email, password} = req.body;
+      const user = await User.findOne({ email }).select("+password");
 
-            if (!email || !password) {
-                return next();
-            }
+      if (!user) {
+        return next();
+      }
 
-            const user = await User.findOne({email}).select("+password")
+      const isPasswordMatched = await user.comparePassword(password);
 
-            if (!user) {
-                return next();
-            }
-
-            const isPasswordMatched = await user.comparePassword(password)
-
-            if (!isPasswordMatched) {
-                res.status(401).json({success: false})
-            } else {
-                console.log("here")
-                sendToken(user, 200, res);
-            }
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    logoutUser: catchAsyncError(async (req,res,next) => {
-
-        res.cookie("token", null, {
-            expires: new Date(Date.now()),
-            httpOnly: true,
-        })
-
-        res.status(200).json({
-            success:true,
-            message: "Logged Out",
-        })
-    }),
-
-    getUserDetail: catchAsyncError(async (req, res, next) => {
-        console.log(req.user);
-        const user = await User.findById(req.user.id);
-        res.status(200).json({
-            success: true,
-            user,
-        })
-    }),
-
-    updateUserPassword: catchAsyncError( async (req,res,next) => {
-        const user = await User.findById(req.user.id); 
-
-        const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
-
-        if (!isPasswordMatched) {
-            return next (new ErrorHandler("Old password is incorrect", 400));
-        }
-
-        if (req.body.newPassword !==  req.body.confirmPassword ) {
-            return next(new ErrorHandler("Password doesn't match", 400));
-        }
-
-        user.password = req.body.newPassword;
-
-        await user.save();
-         
+      if (!isPasswordMatched) {
+        res.status(401).json({ success: false });
+      } else {
         sendToken(user, 200, res);
-    }),
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  logoutUser: catchAsyncError(async (req, res, next) => {
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
 
-    updateUserProfile : catchAsyncError(async (req,res,next) => {
-        const newUserData = {
-            name: req.body.name,
-        };
-        const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
-            new: true,
-            runValidators: true,
-            useFindAndModify: false,
-        }); 
+    res.status(200).json({
+      success: true,
+      message: "Logged Out",
+    });
+  }),
 
-        res.status(200).json({
-            success: true,
-            user
-        })
+  getUserDetail: catchAsyncError(async (req, res, next) => {
+    console.log(req.user);
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  }),
 
-    }),
+  updateUserPassword: catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
 
-    //Admin
-    getAllUser : async (req,res) => {
-        try {
-            const users = await User.find();
-            res.status(200).send(users);
-        } catch (err) {res.status(500).json(err)}
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 
-    },
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler("Old password is incorrect", 400));
+    }
 
-    getSingleUser: catchAsyncError(async (req,res,next) => {
-        const user = await User.findById(req.params.id);
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return next(new ErrorHandler("Password doesn't match", 400));
+    }
 
-        if (!user) {
-            return next(new ErrorHandler("ID not found"));
-        }
+    user.password = req.body.newPassword;
 
-        res.status(200).json({
-            success: true,
-            user
-        })
-    }),
+    await user.save();
 
-    updateUserProfileAdmin : catchAsyncError(async (req,res,next) => {
-        const newUserData = {
-            name: req.body.name,
-            role: req.body.role,
-        };
-        const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
-            new: true,
-            runValidators: true,
-            useFindAndModify: false,
-        }); 
+    sendToken(user, 200, res);
+  }),
 
-        res.status(200).json({
-            success: true,
-            user
-        })
-    }),
+  updateUserProfile: catchAsyncError(async (req, res, next) => {
+    const newUserData = {
+      name: req.body.name,
+    };
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
 
-    deleteUser: catchAsyncError(async (req,res,next) => {
-        const user = await User.findById(req.params.id);
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  }),
 
-        if (!user) {
-            return next(new ErrorHandler("User does not exist"));
-        }
+  //Admin
+  getAllUser: async (req, res) => {
+    try {
+      const users = await User.find();
+      res.status(200).send(users);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
-        await user.remove();
+  getSingleUser: catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
 
-        res.status(200).json({
-            success: true,
-        })
-    }),
+    if (!user) {
+      return next(new ErrorHandler("ID not found"));
+    }
 
-}
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  }),
+
+  updateUserProfileAdmin: catchAsyncError(async (req, res, next) => {
+    const newUserData = {
+      name: req.body.name,
+      role: req.body.role,
+    };
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  }),
+
+  deleteUser: catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return next(new ErrorHandler("User does not exist"));
+    }
+
+    await user.remove();
+
+    res.status(200).json({
+      success: true,
+    });
+  }),
+};
 
 module.exports = userController;

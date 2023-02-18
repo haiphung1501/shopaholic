@@ -17,7 +17,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Link, useNavigate } from 'react-router-dom'
-import { Stack } from '@mui/material';
+import { Avatar, Button, Stack } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { userLogout } from '../../features/user/userSlice'
+import { userLogoutReq } from '../../apis';
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -36,16 +40,6 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
@@ -62,7 +56,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header() {
   const [keyword, setKeyword] = useState("");
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -96,6 +92,14 @@ export default function Header() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleLogout = () => {
+    userLogoutReq()
+      .then(res => {
+        dispatch(userLogout())
+        navigate('/')
+      })
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -203,7 +207,6 @@ export default function Header() {
               </IconButton>
               <StyledInputBase
                 component='span'
-                style={{ width: 600 }}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={(e) => setKeyword(e.target.value)}
@@ -213,31 +216,30 @@ export default function Header() {
 
 
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
+          {
+            isAuthenticated && user ? (
+              <>
+                <IconButton sx={{ px: 2 }}>
+                  <Avatar alt="Remy Sharp" src={user.user.avatar.url} />
+                </IconButton>
+                <Link style={{ textDecoration: 'none' }}>
+                  <Button onClick={handleLogout} sx={{ px: 2, whiteSpace: 'nowrap' }} variant='contained'>
+                    Sign Out
+                  </Button>
+                </Link>
+              </>
+
+            ) : (
+              <Link style={{ textDecoration: 'none' }} to='/user/login'>
+                <Button sx={{ px: 2, whiteSpace: 'nowrap' }} variant='contained'>
+                  Log In
+                </Button>
+              </Link>
+            )
+          }
+
+
+
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

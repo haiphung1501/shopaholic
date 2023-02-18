@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Carousel from 'react-material-ui-carousel'
 import { Paper, Button, Box, Grid, Typography, IconButton, TextField } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
-import { productDetailRequest, productDetailSuccess, productDetailFailed } from './productDetailSlice'
+import { productDetailRequest, productDetailSuccess, productDetailFailed } from '../../features/product/productDetailSlice'
 import { useAlert } from 'react-alert'
 import { getProductDetailReq } from '../../apis'
 import { useParams } from 'react-router-dom'
@@ -17,7 +17,6 @@ import Loader from '../layout/Loader'
 export default function ProductDetail() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    console.log(id);
     const alert = useAlert();
     const { product, loading, error } = useSelector(state => state.productDetail)
 

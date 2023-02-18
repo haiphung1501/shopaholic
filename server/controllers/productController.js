@@ -8,11 +8,15 @@ const productController = {
       const { search } = req.query;
       const query = search ? { name: { $regex: search, $options: "i" } } : {};
       const products = await Product.find(query);
+      const minPrice = Math.min(...products.map((item) => item.price));
+      const maxPrice = Math.max(...products.map((item) => item.price));
       const productsCount = await Product.countDocuments(query);
       res.status(200).json({
         success: true,
         products,
         productsCount,
+        minPrice,
+        maxPrice,
       });
     } catch (err) {
       res.status(500).json(err);

@@ -28,6 +28,8 @@ const productSlice = createSlice({
         loading: false,
         products: action.payload.products,
         productsCount: action.payload.productsCount,
+        minPrice: action.payload.minPrice,
+        maxPrice: action.payload.maxPrice,
       };
     },
     clearError: (state) => {

@@ -5,13 +5,17 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link, useNavigate } from 'react-router-dom'
+import { userLoginRequest, userLoginSuccess, userLoginFailed } from '../../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { userLoginReq } from '../../apis/index'
+import { Alert } from '@mui/material'
 
 function Copyright(props) {
   return (
@@ -29,6 +33,22 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { error } = useSelector((state) => state.user);
+
+  const login = async (email, password) => {
+    try {
+      dispatch(userLoginRequest());
+      const response = await userLoginReq(email, password);
+      dispatch(userLoginSuccess(response.data));
+      navigate('/');
+    } catch (error) {
+      dispatch(userLoginFailed(error));
+    }
+  }
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,6 +56,7 @@ export default function Login() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    login(data.get('email'), data.get('password'));
   };
 
   return (
@@ -81,6 +102,12 @@ export default function Login() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && (
+              <Alert sx={{ my: 0.5 }} severity="error">
+                Username or password is incorrect
+              </Alert>
+            )
+            }
             <Button
               type="submit"
               fullWidth
@@ -89,6 +116,7 @@ export default function Login() {
             >
               Sign In
             </Button>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -96,13 +124,14 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/user/register" variant="body2">
+                <Link to="/user/register">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
+
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
