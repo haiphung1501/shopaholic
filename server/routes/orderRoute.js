@@ -41,3 +41,5 @@ router.delete(
   authController.authorizeRoles("admin"),
   orderController.deleteOrder
 );
+
+module.exports = router;

@@ -21,6 +21,8 @@ import { Avatar, Button, Stack } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { userLogout } from '../../features/user/userSlice'
 import { userLogoutReq } from '../../apis';
+import Cookies from 'js-cookie'
+import { useAlert } from 'react-alert';
 
 
 
@@ -56,6 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header() {
   const [keyword, setKeyword] = useState("");
+  const alert = useAlert();
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -96,8 +99,11 @@ export default function Header() {
   const handleLogout = () => {
     userLogoutReq()
       .then(res => {
+        if (Cookies.remove("token",))
+          console.log("Cookies removed successfully.")
         dispatch(userLogout())
         navigate('/')
+        alert.success("Logout successfully.")
       })
   }
 
@@ -219,9 +225,11 @@ export default function Header() {
           {
             isAuthenticated && user ? (
               <>
-                <IconButton sx={{ px: 2 }}>
-                  <Avatar alt="Remy Sharp" src={user.user.avatar.url} />
-                </IconButton>
+                <Link style={{ textDecoration: 'none' }} to='/me'>
+                  <IconButton sx={{ px: 2 }}>
+                    <Avatar src={user.user.avatar.url} />
+                  </IconButton>
+                </Link>
                 <Link style={{ textDecoration: 'none' }}>
                   <Button onClick={handleLogout} sx={{ px: 2, whiteSpace: 'nowrap' }} variant='contained'>
                     Sign Out

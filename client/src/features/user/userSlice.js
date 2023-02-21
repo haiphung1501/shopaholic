@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
   user: null,
@@ -47,6 +48,7 @@ const userSlice = createSlice({
       state.registrationSuccess = false;
     },
     userLogout: (state) => {
+      Cookies.remove("token");
       state.user = null;
       state.loading = false;
       state.error = null;
@@ -54,6 +56,24 @@ const userSlice = createSlice({
       state.isRegistering = false;
       state.registrationError = null;
       state.registrationSuccess = false;
+    },
+    userLoadRequest: (state, action) => {
+      state.loading = true;
+      state.error = null;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    },
+    userLoadFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.user = null;
+      state.isAuthenticated = false;
+    },
+    userLoadSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      state.error = null;
+      state.isAuthenticated = true;
     },
   },
 });

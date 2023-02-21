@@ -9,11 +9,15 @@ export const getProductDetailReq = (id) =>
 export const getAllCategory = () =>
   axios.get("http://localhost:4000/api/product/category");
 
-export const userLoginReq = (email, password) => {
-  return axios.post("http://localhost:4000/api/user/login", {
-    email,
-    password,
-  });
+export const userLoginReq = async (email, password) => {
+  return axios.post(
+    "http://localhost:4000/api/user/login",
+    {
+      email,
+      password,
+    },
+    { withCredentials: true }
+  );
 };
 
 export const userRegisterReq = (name, email, password) => {
@@ -24,6 +28,12 @@ export const userRegisterReq = (name, email, password) => {
   });
 };
 
-export const userLogoutReq = () => {
-  return axios.post("http://localhost:4000/api/user/logout");
+export const userLogoutReq = async () => {
+  return await axios.post("http://localhost:4000/api/user/logout", {
+    withCredentials: true,
+  });
+};
+
+export const userDetailReq = async () => {
+  return await axios.get("http://localhost:4000/api/user/me");
 };

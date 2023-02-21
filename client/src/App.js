@@ -12,6 +12,10 @@ import Register from "./components/User/Register";
 import Login from "./components/User/Login";
 import ProductDetail from "./components/Product/ProductDetail";
 import ProductList from "./components/Product/ProductList";
+import ProtectedRoute from "./components/Route/ProtectedRoute";
+import Profile from "./components/User/Profile";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
@@ -25,6 +29,9 @@ function App() {
           <Route path="/user/login" element={<Login />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/products/:keyword" element={<ProductList />} />
+          <Route exact path="/me" element={<ProtectedRoute />}>
+            <Route path="/me" element={<Profile />} />
+          </Route>
         </Routes>
       </Container>
     </BrowserRouter>
