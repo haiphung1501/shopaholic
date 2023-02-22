@@ -10,8 +10,14 @@ import ListItemText from '@mui/material/ListItemText';
 import { Divider, Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import MyOrders from '../Order/MyOrders';
+import Loader from '../layout/Loader'
+import { Link } from 'react-router-dom'
 const Profile = () => {
-    const { user } = useSelector((state) => state.user);
+    const { user, loading } = useSelector((state) => state.user);
+
+    if (loading) return (
+        <Loader />
+    )
     return (
         <>
             <Grid container spacing={2} sx={{ mt: 4 }}>
@@ -36,12 +42,20 @@ const Profile = () => {
                             {user.user.email}
                         </Typography>
                         <Divider />
-                        <Button variant="contained" color="primary" sx={{ textTransform: "none", mt: 2, px: 1, width: 150, whiteSpace: 'nowrap' }}>
-                            Change Password
-                        </Button>
+                        <Box>
+                            <Button variant="contained" color="primary" sx={{ textTransform: "none", mt: 2, px: 1, width: 150, whiteSpace: 'nowrap' }}>
+                                Change Password
+                            </Button>
+                            <Link style={{ textDecoration: 'none' }} to='/me/update'>
+                                <Button variant="contained" color="primary" sx={{ textTransform: "none", mt: 2, px: 1, mx: 2, width: 150, whiteSpace: 'nowrap' }}>
+                                    Update Profile
+                                </Button>
+                            </Link>
+
+                        </Box>
+
                     </Box>
                 </Grid>
-
             </Grid>
             <Typography variant="h6" sx={{ mt: 4 }}>
                 My Orders

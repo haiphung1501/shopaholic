@@ -2,6 +2,7 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
 const sendToken = require("../utils/jwtToken");
+const cloundinary = require("cloudinary");
 
 const userController = {
   createUser: async (req, res) => {
@@ -87,7 +88,27 @@ const userController = {
   updateUserProfile: catchAsyncError(async (req, res, next) => {
     const newUserData = {
       name: req.body.name,
+      email: req.body.email,
     };
+
+    if (req.body.avatar !== "") {
+      const user = await User.findById(req.user.id);
+      const image_id = user.avatar.public_id;
+
+      await cloundinary.v2.uploader.destroy(image_id);
+
+      const result = await cloundinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        width: 150,
+        crop: "scale",
+      });
+
+      newUserData.avatar = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    }
+
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
       new: true,
       runValidators: true,

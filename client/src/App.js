@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/Route/ProtectedRoute";
 import Profile from "./components/User/Profile";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import UpdateProfile from "./components/User/UpdateProfile";
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
           <Route path="/products/:keyword" element={<ProductList />} />
           <Route exact path="/me" element={<ProtectedRoute />}>
             <Route path="/me" element={<Profile />} />
+          </Route>
+          <Route exact path="/me/update" element={<ProtectedRoute />}>
+            <Route path="/me/update" element={<UpdateProfile />} />
           </Route>
         </Routes>
       </Container>
