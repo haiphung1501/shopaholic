@@ -2,6 +2,9 @@ const express = require("express");
 const userController = require("../controllers/userController");
 const authController = require("../middlewares/auth");
 const router = express.Router();
+const multer = require("multer");
+
+const upload = multer();
 
 router.post("/register", userController.createUser);
 
@@ -24,6 +27,7 @@ router.post(
 router.post(
   "/me/update",
   authController.isAuthenticatedUser,
+  upload.single("image"),
   userController.updateUserProfile
 );
 

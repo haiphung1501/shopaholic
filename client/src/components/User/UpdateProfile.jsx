@@ -10,21 +10,33 @@ import {
     IconButton,
     Avatar,
 } from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
-import { useSelector } from "react-redux";
+import { userUpdateRequest, userUpdateSuccess, userUpdateFailed } from '../../features/user/userSlice'
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from 'react';
+import { userUpdateReq } from "../../apis";
 export default function UpdateProfile() {
     const { user } = useSelector((state) => state.user);
-    const [previewImage, setPreviewImage] = useState(null)
-    const [avatarUrl, setAvatarUrl] = useState(user.user.avatar.url)
+    const [previewImage, setPreviewImage] = useState(user ? user.user.avatar.url : null)
+    const [avatarUrl, setAvatarUrl] = useState("")
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
-        defaultValues: { username: user.username, email: user.email },
-    });
+    } = useForm();
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const dispatch = useDispatch();
+
+    const updateProfile = async (data) => {
+        try {
+            dispatch(userUpdateRequest());
+            const response = await userUpdateReq(data);
+            dispatch(userUpdateSuccess(response.data));
+            setOpenSnackbar(true);
+        } catch (err) {
+            dispatch(userUpdateFailed(err));
+            setOpenSnackbar(true);
+        }
+    }
 
     const handlePreviewImage = (e) => {
         const file = e.target.files[0];
@@ -38,12 +50,27 @@ export default function UpdateProfile() {
             setPreviewImage(null);
         }
     }
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarUrl(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setAvatarUrl("");
+        }
+    }
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);
     };
 
     const handleFormSubmit = (data) => {
-        console.log(data)
+        const myForm = new FormData();
+        myForm.append('name', data.name);
+        myForm.append('avatar', avatarUrl);
+        updateProfile(myForm);
         setOpenSnackbar(true);
     };
 
@@ -68,7 +95,7 @@ export default function UpdateProfile() {
                         <Typography variant="h4" fontWeight='bold' gutterBottom>
                             Update Profile
                         </Typography>
-                        <input type="file" id="avatar" name="avatar" accept="image/*" style={{ display: 'none' }} {...register('avatar')} onChange={(e) => handlePreviewImage(e)} />
+                        <input type="file" id="avatar" name="avatar" accept="image/*" style={{ display: 'none' }} {...register('avatar')} onChange={(e) => { handlePreviewImage(e); handleImageUpload(e); }} />
                         <label htmlFor="avatar">
                             <IconButton component="span">
                                 <Avatar sx={{ width: 200, height: 200 }} src={previewImage || avatarUrl} />
@@ -78,13 +105,13 @@ export default function UpdateProfile() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            id="username"
+                            id="name"
                             label="Username"
-                            {...register("username", { required: true })}
+                            {...register("name", { required: true })}
                             fullWidth
                         />
                         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                            {errors.username && (
+                            {errors.name && (
                                 <Typography variant="caption" color="error">
                                     This field is required.
                                 </Typography>
@@ -92,29 +119,6 @@ export default function UpdateProfile() {
                         </Box>
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <TextField
-                            id="email"
-                            label="Email"
-                            {...register("email", {
-                                required: true,
-                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            })}
-                            fullWidth
-                        />
-                        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-                            {errors.email && errors.email.type === "required" && (
-                                <Typography variant="caption" color="error">
-                                    This field is required.
-                                </Typography>
-                            )}
-                            {errors.email && errors.email.type === "pattern" && (
-                                <Typography variant="caption" color="error" >
-                                    Invalid email address.
-                                </Typography>
-                            )}
-                        </Box>
-                    </Grid>
                 </Grid>
                 <Box mt={2}>
                     <Button variant="contained" type="submit">

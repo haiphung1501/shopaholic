@@ -37,3 +37,18 @@ export const userLogoutReq = async () => {
 export const userDetailReq = async () => {
   return await axios.get("http://localhost:4000/api/user/me");
 };
+
+export const userUpdateReq = async (userData) => {
+  const config = {
+    headers: {
+      "content-type": "multipart/form-data",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.post(
+    "http://localhost:4000/api/user/me/update",
+    userData,
+    config
+  );
+};
