@@ -66,6 +66,7 @@ const userController = {
   }),
 
   updateUserPassword: catchAsyncError(async (req, res, next) => {
+    console.log(req.body);
     const user = await User.findById(req.user.id);
 
     const isPasswordMatched = await user.comparePassword(req.body.oldPassword);

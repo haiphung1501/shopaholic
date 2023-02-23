@@ -21,6 +21,7 @@ router.get(
 router.post(
   "/me/updatepassword",
   authController.isAuthenticatedUser,
+  upload.none(),
   userController.updateUserPassword
 );
 

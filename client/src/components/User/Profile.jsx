@@ -43,9 +43,11 @@ const Profile = () => {
                         </Typography>
                         <Divider />
                         <Box>
-                            <Button variant="contained" color="primary" sx={{ textTransform: "none", mt: 2, px: 1, width: 150, whiteSpace: 'nowrap' }}>
-                                Change Password
-                            </Button>
+                            <Link style={{ textDecoration: 'none' }} to='/me/update/password'>
+                                <Button variant="contained" color="primary" sx={{ textTransform: "none", mt: 2, px: 1, width: 150, whiteSpace: 'nowrap' }}>
+                                    Change Password
+                                </Button>
+                            </Link>
                             <Link style={{ textDecoration: 'none' }} to='/me/update'>
                                 <Button variant="contained" color="primary" sx={{ textTransform: "none", mt: 2, px: 1, mx: 2, width: 150, whiteSpace: 'nowrap' }}>
                                     Update Profile

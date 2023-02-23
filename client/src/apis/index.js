@@ -52,3 +52,19 @@ export const userUpdateReq = async (userData) => {
     config
   );
 };
+
+export const userUpdatePasswordReq = async (userData) => {
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  console.log(userData);
+  return await axios.post(
+    "http://localhost:4000/api/user/me/updatepassword",
+    userData,
+    config
+  );
+};

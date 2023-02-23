@@ -91,6 +91,22 @@ const userSlice = createSlice({
       state.error = null;
       state.isAuthenticated = true;
     },
+    userUpdatePasswordRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.isAuthenticated = true;
+    },
+    userUpdatePasswordFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.isAuthenticated = true;
+    },
+    userUpdatePasswordSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      state.error = null;
+      state.isAuthenticated = true;
+    },
   },
 });
 
@@ -108,6 +124,9 @@ export const {
   userUpdateRequest,
   userUpdateFailed,
   userUpdateSuccess,
+  userUpdatePasswordFailed,
+  userUpdatePasswordRequest,
+  userUpdatePasswordSuccess,
 } = userSlice.actions;
 
 export default userSlice.reducer;
