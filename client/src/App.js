@@ -14,6 +14,7 @@ import ProductDetail from "./components/Product/ProductDetail";
 import ProductList from "./components/Product/ProductList";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 import Profile from "./components/User/Profile";
+import Cart from "./components/Cart/Cart";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import UpdateProfile from "./components/User/UpdateProfile";
@@ -39,6 +40,9 @@ function App() {
           </Route>
           <Route exact path="/me/update/password" element={<ProtectedRoute />}>
             <Route path="/me/update/password" element={<UpdatePassword />} />
+          </Route>
+          <Route exact path="/cart" element={<ProtectedRoute />}>
+            <Route path="/cart" element={<Cart />} />
           </Route>
         </Routes>
       </Container>

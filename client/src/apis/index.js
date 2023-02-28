@@ -34,8 +34,15 @@ export const userLogoutReq = async () => {
   });
 };
 
-export const userDetailReq = async () => {
-  return await axios.get("http://localhost:4000/api/user/me");
+export const userLoadReq = async () => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get("http://localhost:4000/api/user/me", config);
 };
 
 export const userUpdateReq = async (userData) => {
@@ -67,4 +74,8 @@ export const userUpdatePasswordReq = async (userData) => {
     userData,
     config
   );
+};
+
+export const getOneProductReq = async (id) => {
+  return await axios.get(`http://localhost:4000/api/product/${id}`);
 };

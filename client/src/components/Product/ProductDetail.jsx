@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Carousel from 'react-material-ui-carousel'
 import { Paper, Button, Box, Grid, Typography, IconButton, TextField } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,6 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ReviewCard from './ReviewCard'
 import Loader from '../layout/Loader'
+import { addToCartAction } from '../../features/cart/cartSlice'
 
 
 export default function ProductDetail() {
@@ -19,7 +20,27 @@ export default function ProductDetail() {
     const { id } = useParams();
     const alert = useAlert();
     const { product, loading, error } = useSelector(state => state.productDetail)
+    const [quantity, setQuantity] = useState(1);
 
+    const decreaseQuantity = () => {
+        if (quantity > 1) {
+            const newQuantity = quantity - 1;
+            setQuantity(newQuantity);
+        }
+        else {
+            setQuantity(1)
+        }
+    }
+    const increaseQuantity = () => {
+        if (quantity >= product.stock)
+            return alert.error(`The maximum quantity you can add is ${product.stock}`);
+        const newQuantity = quantity + 1;
+        setQuantity(newQuantity);
+    }
+    const addToCartHandler = () => {
+        dispatch(addToCartAction(id, quantity))
+        alert.success('Product added to cart')
+    }
     useEffect(() => {
         if (error) { return alert.error(error) }
         dispatch(productDetailRequest())
@@ -80,25 +101,23 @@ export default function ProductDetail() {
                             {`${product.price} VNĐ`}
                         </Typography>
                         <Box display='flex' alignItems='center'>
-                            <IconButton >
+                            <IconButton onClick={decreaseQuantity}>
                                 <RemoveIcon />
                             </IconButton>
                             <TextField
-                                id="outlined-number"
                                 label="Number"
-                                type="number"
-                                defaultValue={1}
+                                value={quantity}
                                 size='small'
                                 sx={{ width: 100 }}
                             />
-                            <IconButton>
+                            <IconButton onClick={increaseQuantity}>
                                 <AddIcon />
                             </IconButton>
                         </Box>
                         <Typography sx={{ mt: 3 }} fontStyle='italic' fontWeight='bold' color={product.stock > 0 ? 'primary' : 'red'} >
                             {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
                         </Typography>
-                        <Button sx={{ borderRadius: '20px', mt: 3 }} variant='outlined' endIcon={<AddShoppingCartIcon />}>
+                        <Button onClick={addToCartHandler} sx={{ borderRadius: '20px', mt: 3 }} variant='outlined' endIcon={<AddShoppingCartIcon />}>
                             Add to Cart
                         </Button>
                         <Box sx={{ mt: 3 }}>

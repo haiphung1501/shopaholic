@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,12 +8,27 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Divider, Grid } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import MyOrders from '../Order/MyOrders';
 import Loader from '../layout/Loader'
 import { Link } from 'react-router-dom'
+import { userLoadFailed, userLoadRequest, userLoadSuccess } from '../../features/user/userSlice';
+import { userLoadReq } from '../../apis/index'
 const Profile = () => {
     const { user, loading } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(userLoadRequest());
+        userLoadReq()
+            .then((res) => {
+                dispatch(userLoadSuccess(res.data));
+            })
+            .catch((err) => {
+                dispatch(userLoadFailed(err.response))
+            })
+    }, [])
+
 
     if (loading) return (
         <Loader />

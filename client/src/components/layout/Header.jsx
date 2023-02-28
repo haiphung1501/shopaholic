@@ -16,6 +16,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar, Button, Stack } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
@@ -60,6 +61,7 @@ export default function Header() {
   const [keyword, setKeyword] = useState("");
   const alert = useAlert();
   const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -69,7 +71,7 @@ export default function Header() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-
+  const totalItemsInCart = cartItems.reduce((acc, item) => acc + item.qty, 0);
   const SearchSubmitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
@@ -219,8 +221,6 @@ export default function Header() {
               />
             </Stack>
           </Search>
-
-
           <Box sx={{ flexGrow: 1 }} />
           {
             isAuthenticated && user ? (
@@ -228,6 +228,13 @@ export default function Header() {
                 <Link style={{ textDecoration: 'none' }} to='/me'>
                   <IconButton sx={{ px: 2 }}>
                     <Avatar src={user.user.avatar.url} />
+                  </IconButton>
+                </Link>
+                <Link to='/cart'>
+                  <IconButton sx={{ pr: 2 }} color='white' aria-label="cart" >
+                    <Badge badgeContent={totalItemsInCart} color="primary">
+                      <ShoppingCartIcon style={{ color: 'white' }} />
+                    </Badge>
                   </IconButton>
                 </Link>
                 <Link style={{ textDecoration: 'none' }}>
