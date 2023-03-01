@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Table,
     TableContainer,
@@ -19,6 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from "react-redux";
 import { addToCartAction, removeFromCartAction } from "../../features/cart/cartSlice";
+import { createOrderAction } from "../../features/order/orderSlice";
 
 
 const Cart = () => {
@@ -45,17 +46,25 @@ const Cart = () => {
     }
     const removeItemHandler = async (productId) => {
         await dispatch(removeFromCartAction(productId, 0));
-        setTotalPrice(
-            cartItems.filter((item) => item.id !== productId)
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-        );
+    }
 
-        console.log(totalPrice);
+    useEffect(() => {
+        setTotalPrice(cartItems.reduce((acc, item) => acc + item.qty * item.price, 0));
+    }, [cartItems]);
+
+    const checkOutHandler = () => {
+        const data = {
+            cartItems,
+            totalPrice,
+        }
+        dispatch(createOrderAction(data));
+        console.log(data)
     }
 
     return (
         <>
-            <TableContainer component={Paper}>
+            <Typography fontFamily='Roboto Slab' variant="h4" fontWeight='900' sx={{ mt: 2 }}>My Cart</Typography>
+            <TableContainer sx={{ mt: 3 }} component={Paper}>
                 <Table sx={{ minWidth: 650 }}>
                     <TableHead>
                         <TableRow>
@@ -76,11 +85,11 @@ const Cart = () => {
                                 <TableCell align="center">{item.name}</TableCell>
                                 <TableCell align="center">{item.price} đ</TableCell>
                                 <TableCell align="center">
-                                    <IconButton onClick={() => decreaseQtyHandler(item.id, item.qty)}>
+                                    <IconButton onClick={() => decreaseQtyHandler(item.product, item.qty)}>
                                         <RemoveIcon />
                                     </IconButton>
                                     {item.qty}
-                                    <IconButton onClick={() => increaseQtyHandler(item.id, item.qty, item.stock)} >
+                                    <IconButton onClick={() => increaseQtyHandler(item.product, item.qty, item.stock)} >
                                         <AddIcon />
                                     </IconButton>
                                 </TableCell>
@@ -89,7 +98,7 @@ const Cart = () => {
                                 <TableCell align="center">
                                     <IconButton
                                         color="error"
-                                        onClick={() => removeItemHandler(item.id)}
+                                        onClick={() => removeItemHandler(item.product)}
                                     >
                                         <DeleteIcon />
                                     </IconButton>
@@ -107,7 +116,7 @@ const Cart = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button variant="contained" sx={{ mt: 2 }}>
+            <Button onClick={checkOutHandler} variant="contained" sx={{ mt: 2 }}>
                 Checkout
             </Button>
         </>

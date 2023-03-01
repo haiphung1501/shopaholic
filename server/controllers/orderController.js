@@ -11,18 +11,13 @@ const updateStock = async (id, quantity) => {
 
 const orderController = {
   newOrder: catchAsyncError(async (req, res, next) => {
-    const {
-      orderItems,
-      user = req.user._id,
-      totalPrice,
-      shippingInfo,
-    } = req.body;
+    console.log(req.body);
+    const { orderItems, user = req.user._id, totalPrice } = req.body;
 
     const order = await Order.create({
       orderItems,
       user,
       totalPrice,
-      shippingInfo,
     });
 
     res.status(200).json({

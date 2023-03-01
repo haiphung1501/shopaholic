@@ -5,16 +5,12 @@ const authController = require("../middlewares/auth");
 const router = express.Router();
 
 router.post(
-  "/order/new",
+  "/new",
   authController.isAuthenticatedUser,
   orderController.newOrder
 );
 
-router.get(
-  "/order/me",
-  authController.isAuthenticatedUser,
-  orderController.myOrders
-);
+router.get("/me", authController.isAuthenticatedUser, orderController.myOrders);
 
 router.get(
   "/admin/orders",
@@ -24,7 +20,7 @@ router.get(
 );
 
 router.get(
-  "/order/:id",
+  "/:id",
   authController.isAuthenticatedUser,
   orderController.getSingleOrder
 );

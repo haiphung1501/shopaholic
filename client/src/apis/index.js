@@ -79,3 +79,25 @@ export const userUpdatePasswordReq = async (userData) => {
 export const getOneProductReq = async (id) => {
   return await axios.get(`http://localhost:4000/api/product/${id}`);
 };
+
+export const createOrderReq = async (order) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.post("http://localhost:4000/api/order/new", order, config);
+};
+
+export const getMyOrdersReq = async () => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get("http://localhost:4000/api/order/me", config);
+};

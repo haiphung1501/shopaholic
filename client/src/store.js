@@ -17,6 +17,7 @@ import productReducer from "./features/product/productSlice";
 import productDetailReducer from "./features/product/productDetailSlice";
 import userReducer from "./features/user/userSlice";
 import cartReducer from "./features/cart/cartSlice";
+import orderReducer from "./features/order/orderSlice";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   productDetail: productDetailReducer,
   user: userReducer,
   cart: cartReducer,
+  order: orderReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

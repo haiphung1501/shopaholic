@@ -12,18 +12,20 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-      const existItem = state.cartItems.find((x) => x.id === item.id);
+      const existItem = state.cartItems.find((x) => x.product === item.product);
 
       if (existItem) {
         state.cartItems = state.cartItems.map((x) =>
-          x.id === existItem.id ? item : x
+          x.product === existItem.product ? item : x
         );
       } else {
         state.cartItems = [...state.cartItems, item];
       }
     },
     removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter((x) => x.id !== action.payload);
+      state.cartItems = state.cartItems.filter(
+        (x) => x.product !== action.payload
+      );
     },
   },
 });
@@ -35,7 +37,7 @@ export const addToCartAction = (id, qty) => async (dispatch, getState) => {
   const { data } = await getOneProductReq(id);
   dispatch(
     addToCart({
-      id: data._id,
+      product: data._id,
       name: data.name,
       image: data.images[0].url,
       price: data.price,
