@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import UpdateProfile from "./components/User/UpdateProfile";
 import UpdatePassword from "./components/User/UpdatePassword";
+import Order from "./components/Order/Order";
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
           </Route>
           <Route exact path="/cart" element={<ProtectedRoute />}>
             <Route path="/cart" element={<Cart />} />
+          </Route>
+          <Route exact path="/order/:keyword" element={<ProtectedRoute />}>
+            <Route path="/order/:keyword" element={<Order />} />
           </Route>
         </Routes>
       </Container>

@@ -19,15 +19,18 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from "react-redux";
 import { addToCartAction, removeFromCartAction } from "../../features/cart/cartSlice";
-import { createOrderAction } from "../../features/order/orderSlice";
+import { createOrderAction } from "../../features/order/orderDetailSlice";
+import { useNavigate } from 'react-router-dom';
 
 
 const Cart = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.cartItems);
+    const { order } = useSelector(state => state.orderDetail)
     const [totalPrice, setTotalPrice] = useState(
         cartItems.reduce((acc, item) => acc + item.qty * item.price, 0)
     );
+    const navigate = useNavigate();
 
     const increaseQtyHandler = (productId, quantity, stock) => {
         const newQty = quantity + 1;
@@ -54,11 +57,11 @@ const Cart = () => {
 
     const checkOutHandler = () => {
         const data = {
-            cartItems,
+            orderItems: cartItems,
             totalPrice,
         }
-        dispatch(createOrderAction(data));
-        console.log(data)
+        dispatch(createOrderAction(data))
+        navigate(`/order/${order._id}`, { replace: true })
     }
 
     return (
@@ -116,9 +119,18 @@ const Cart = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button onClick={checkOutHandler} variant="contained" sx={{ mt: 2 }}>
-                Checkout
-            </Button>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Button onClick={checkOutHandler} variant="contained" sx={{ mt: 2 }}>
+                    Checkout
+                </Button>
+            </Box>
+
         </>
     );
 };

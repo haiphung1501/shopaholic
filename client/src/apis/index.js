@@ -101,3 +101,25 @@ export const getMyOrdersReq = async () => {
   };
   return await axios.get("http://localhost:4000/api/order/me", config);
 };
+
+export const getSingleOrderReq = async (id) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get(`http://localhost:4000/api/order/${id}`, config);
+};
+
+export const getAllOrdersReq = async () => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get("http://localhost:4000/api/order/me", config);
+};
