@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducer,
   orderDetail: orderDetailReducer,
-  order: orderReducer,
+  orders: orderReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

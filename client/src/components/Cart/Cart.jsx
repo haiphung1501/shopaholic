@@ -61,7 +61,7 @@ const Cart = () => {
             totalPrice,
         }
         dispatch(createOrderAction(data))
-        navigate(`/order/${order._id}`, { replace: true })
+        navigate(`/me/order/${order._id}`, { replace: true })
     }
 
     return (

@@ -1,23 +1,20 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress, Box } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { getAllOrdersReq } from '../../apis/index'
 import { useAlert } from 'react-alert';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getAllOrders } from '../../features/order/orderSlice';
+import moment from 'moment';
 
 function MyOrders() {
-    const [loading, setLoading] = useState(false);
-    useEffect(() => { }, []);
+    const dispatch = useDispatch();
+    const { loading, error, orders } = useSelector(state => state.orders)
+    useEffect(() => {
+        dispatch(getAllOrders());
+    }, [dispatch]);
 
-
-    const orders = [
-        { id: 1, item: 'Product 1', price: 100, status: 'success' },
-        { id: 2, item: 'Product 2', price: 200, status: 'declined' },
-        { id: 3, item: 'Product 3', price: 300, status: 'processing' },
-        { id: 4, item: 'Product 4', price: 400, status: 'success' },
-        { id: 5, item: 'Product 5', price: 500, status: 'processing' },
-    ];
-
+    console.log(orders.orders);
     if (loading) return (
         <Box sx={{
             display: 'flex',
@@ -40,19 +37,35 @@ function MyOrders() {
                             <Typography variant="h6">Order Item</Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="h6">Total Price</Typography>
+                            <Typography variant="h6">Create At</Typography>
                         </TableCell>
                         <TableCell>
                             <Typography variant="h6">Status</Typography>
                         </TableCell>
+                        <TableCell>
+                            <Typography variant="h6">Total Price</Typography>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {orders.map((order, index) => (
-                        <TableRow key={order.id} sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f5f5f5' } }}>
-                            <TableCell>{order.id}</TableCell>
-                            <TableCell>{order.item}</TableCell>
-                            <TableCell>{order.price}</TableCell>
+                    {orders.orders.map((order, index) => (
+                        <TableRow key={order._id} sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f5f5f5' } }}>
+                            <TableCell>
+                                <Link to={`/me/order/${order._id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                    <Typography variant='body2' noWrap overflow="hidden" textOverflow="ellipsis" fontWeight='500'>
+                                        {order._id.slice(0, 10)}...
+                                    </Typography>
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant='body2' noWrap overflow="hidden" textOverflow="ellipsis">
+                                    {order.orderItems[0] ? order.orderItems[0].name + ',' : ''}
+                                    {order.orderItems[1] ? ' ' + order.orderItems[1].name + ',' : ' '}
+                                    ...
+                                </Typography>
+                            </TableCell>
+
+                            <TableCell>{moment(order.createAt).format('DD-MM-YYYY')}</TableCell>
                             <TableCell align='center'>
                                 <Typography variant="body1"
                                     sx={{
@@ -65,9 +78,10 @@ function MyOrders() {
                                         bgcolor: order.status === 'success' ? 'green' : order.status === 'declined' ? 'red' : 'primary.main',
                                     }}
                                 >
-                                    {order.status}
+                                    {order.orderStatus}
                                 </Typography>
                             </TableCell>
+                            <TableCell>{order.totalPrice} đ</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

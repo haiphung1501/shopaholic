@@ -2,9 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllOrdersReq } from "../../apis/index";
 
 export const getAllOrders = createAsyncThunk(
-  "order/getAllOrders",
+  "orders/getAllOrders",
   async (arg, thunkAPI) => {
     try {
+      console.log("Chay vo day r");
       const { data } = await getAllOrdersReq();
       return data;
     } catch (error) {
@@ -20,7 +21,7 @@ const initialState = {
 };
 
 const orderSlice = createSlice({
-  name: "order",
+  name: "orders",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
