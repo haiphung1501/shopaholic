@@ -1,4 +1,4 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress, Box } from '@mui/material';
+import { IconButton, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress, Box } from '@mui/material';
 import React from 'react';
 import { useAlert } from 'react-alert';
 import { useEffect, useState } from 'react';
@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllOrders } from '../../features/order/orderSlice';
 import moment from 'moment';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function MyOrders() {
     const dispatch = useDispatch();
@@ -43,7 +45,10 @@ function MyOrders() {
                             <Typography variant="h6">Status</Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography variant="h6">Total Price</Typography>
+                            <Typography variant="h6">Total</Typography>
+                        </TableCell>
+                        <TableCell size='small'>
+
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -82,6 +87,13 @@ function MyOrders() {
                                 </Typography>
                             </TableCell>
                             <TableCell>{order.totalPrice} đ</TableCell>
+                            <TableCell align="center">
+                                <IconButton
+                                    color="error"
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

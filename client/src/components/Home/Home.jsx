@@ -15,12 +15,9 @@ export default function Home() {
 
     const dispatch = useDispatch()
     const alert = useAlert()
-    const { productsCount, products, loading, error } = useSelector(state => state.product)
-
-    console.log(products)
+    const { products, loading, error } = useSelector(state => state.product)
 
     useEffect(() => {
-
         if (error) { return alert.error(error); }
         dispatch(allProductRequest())
         getAllProductReq()

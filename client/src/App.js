@@ -45,8 +45,8 @@ function App() {
           <Route exact path="/cart" element={<ProtectedRoute />}>
             <Route path="/cart" element={<Cart />} />
           </Route>
-          <Route exact path="/me/order/:keyword" element={<ProtectedRoute />}>
-            <Route path="/me/order/:keyword" element={<Order />} />
+          <Route exact path="/me/order/:id" element={<ProtectedRoute />}>
+            <Route path="/me/order/:id" element={<Order />} />
           </Route>
         </Routes>
       </Container>

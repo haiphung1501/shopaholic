@@ -5,7 +5,6 @@ export const getAllOrders = createAsyncThunk(
   "orders/getAllOrders",
   async (arg, thunkAPI) => {
     try {
-      console.log("Chay vo day r");
       const { data } = await getAllOrdersReq();
       return data;
     } catch (error) {

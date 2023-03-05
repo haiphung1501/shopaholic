@@ -5,7 +5,6 @@ const User = require("../models/user");
 const authController = {
   isAuthenticatedUser: catchAsyncError(async (req, res, next) => {
     const { token } = req.cookies;
-    console.log(token);
 
     console.log("checkk");
     if (!token) {

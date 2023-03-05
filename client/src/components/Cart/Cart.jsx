@@ -20,7 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from "react-redux";
 import { addToCartAction, removeFromCartAction } from "../../features/cart/cartSlice";
 import { createOrderAction } from "../../features/order/orderDetailSlice";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 const Cart = () => {
@@ -72,7 +72,7 @@ const Cart = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Image</TableCell>
-                            <TableCell align="center">Name</TableCell>
+                            <TableCell >Name</TableCell>
                             <TableCell align="center">Price</TableCell>
                             <TableCell align="center">Quantity</TableCell>
                             <TableCell align="center">Total Price</TableCell>
@@ -85,7 +85,7 @@ const Cart = () => {
                                 <TableCell align="center">
                                     <img src={item.image} alt={item.name} height="50" />
                                 </TableCell>
-                                <TableCell align="center">{item.name}</TableCell>
+                                <TableCell >{item.name}</TableCell>
                                 <TableCell align="center">{item.price} đ</TableCell>
                                 <TableCell align="center">
                                     <IconButton onClick={() => decreaseQtyHandler(item.product, item.qty)}>
@@ -130,7 +130,6 @@ const Cart = () => {
                     Checkout
                 </Button>
             </Box>
-
         </>
     );
 };
