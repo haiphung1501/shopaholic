@@ -123,3 +123,17 @@ export const getAllOrdersReq = async () => {
   };
   return await axios.get("http://localhost:4000/api/order/me", config);
 };
+
+export const createReviewReq = async (rating, comment, productId) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.put(
+    "http://localhost:4000/api/product/review",
+    { rating, comment, productId },
+    config
+  );
+};

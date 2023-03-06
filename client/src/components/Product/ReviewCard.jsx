@@ -1,8 +1,9 @@
 import React from 'react';
 import { Avatar, Card, CardContent, CardHeader, Rating, Typography } from '@mui/material';
-
+import { useSelector } from 'react-redux';
 function ReviewCard(props) {
     const { review } = props;
+    const { user } = useSelector((state) => state.user);
 
     const avatarStyle = {
         backgroundColor: '#2196f3',
@@ -11,8 +12,8 @@ function ReviewCard(props) {
     return (
         <Card style={{ maxWidth: 700 }}>
             <CardHeader
-                avatar={<Avatar style={avatarStyle} src='https://www.pngitem.com/pimgs/m/404-4042686_my-profile-person-icon-png-free-transparent-png.png'></Avatar>}
-                title={review.name}
+                avatar={<Avatar style={avatarStyle} src={user.user.avatar.url}></Avatar>}
+                title={user.user.name}
                 subheader={review.date}
             />
             <CardContent>

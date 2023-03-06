@@ -72,7 +72,7 @@ const productController = {
   },
   createReview: catchAsyncError(async (req, res, next) => {
     const { rating, comment, productId } = req.body;
-
+    console.log("body ", req.body);
     const review = {
       user: req.user._id,
       name: req.user.name,
@@ -81,6 +81,7 @@ const productController = {
     };
 
     const product = await Product.findById(productId);
+    console.log(product);
 
     const isReviewed = product.reviews.find(
       (rev) => rev.user.toString() === req.user._id.toString()

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Carousel from 'react-material-ui-carousel'
-import { Paper, Button, Box, Grid, Typography, IconButton, TextField } from '@mui/material'
+import { Rating, Paper, Button, Box, Grid, Typography, IconButton, TextField } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { productDetailRequest, productDetailSuccess, productDetailFailed } from '../../features/product/productDetailSlice'
 import { useAlert } from 'react-alert'
-import { getProductDetailReq } from '../../apis'
+import { getProductDetailReq, createReviewReq } from '../../apis'
 import { useParams } from 'react-router-dom'
 import ReactStars from 'react-rating-stars-component'
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -21,6 +21,18 @@ export default function ProductDetail() {
     const alert = useAlert();
     const { product, loading, error } = useSelector(state => state.productDetail)
     const [quantity, setQuantity] = useState(1);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
+    const [render, setRender] = useState(false);
+
+    const handleRatingChange = (event, newValue) => {
+        setRating(newValue);
+    };
+
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+    };
+
 
     const decreaseQuantity = () => {
         if (quantity > 1) {
@@ -41,6 +53,7 @@ export default function ProductDetail() {
         dispatch(addToCartAction(id, quantity))
         alert.success('Product added to cart')
     }
+
     useEffect(() => {
         if (error) { return alert.error(error) }
         dispatch(productDetailRequest())
@@ -51,13 +64,20 @@ export default function ProductDetail() {
             .catch((error) => {
                 dispatch(productDetailFailed(error))
             })
-    }, [dispatch, error, alert, id])
+    }, [dispatch, error, alert, id, render])
+
+    const handleReviewSubmit = async () => {
+        await createReviewReq(rating, comment, id);
+        setRating(0);
+        setComment("");
+        setRender(!render)
+    };
 
     const options = {
-        edit: true,
+        edit: false,
         color: "rgba(20,20,20,0.1)",
         activeColor: "tomato",
-        value: product.rating,
+        value: product.ratings,
         isHalf: true,
         size: window.innerWidth < 600 ? 15 : 20,
     }
@@ -132,6 +152,34 @@ export default function ProductDetail() {
                 </Grid>
             </Box>
             <Box sx={{ borderTop: 1, mt: 5 }}>
+                <Box style={{ display: "flex", alignItems: "center" }}>
+                    <Rating
+                        name="rating"
+                        value={rating}
+                        precision={0.5}
+                        onChange={handleRatingChange}
+                    />
+                    <span style={{ marginLeft: "10px" }}>{"("}{rating}{")"}</span>
+                </Box>
+                <TextField
+                    id="comment"
+                    label="Comment"
+                    multiline
+                    rows={4}
+                    fullWidth
+                    variant="outlined"
+                    value={comment}
+                    onChange={handleCommentChange}
+                    style={{ marginTop: "20px" }}
+                />
+                <Button
+                    onClick={handleReviewSubmit}
+                    type="submit"
+                    variant="contained"
+                    style={{ marginTop: "20px", backgroundColor: "#1976d2", color: "#fff" }}
+                >
+                    Submit
+                </Button>
                 <Grid container spacing={2}>
                     <Grid sx={{ mt: 1 }} item xs={12} md={8}>
                         <Typography fontWeight='bold' align='center' variant='h4'> REVIEWS </Typography>
