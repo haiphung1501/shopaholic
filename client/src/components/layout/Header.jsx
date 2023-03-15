@@ -184,7 +184,7 @@ export default function Header() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, mb: 3 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -252,9 +252,6 @@ export default function Header() {
               </Link>
             )
           }
-
-
-
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

@@ -11,12 +11,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function MyOrders() {
     const dispatch = useDispatch();
-    const { loading, error, orders } = useSelector(state => state.orders)
+
     useEffect(() => {
         dispatch(getAllOrders());
     }, [dispatch]);
 
-    console.log(orders.orders);
+    const { loading, error, orders } = useSelector(state => state.orders)
+
     if (loading) return (
         <Box sx={{
             display: 'flex',
