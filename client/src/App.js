@@ -14,6 +14,7 @@ import ProductDetail from "./components/Product/ProductDetail";
 import ProductList from "./components/Product/ProductList";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
 import AdminRoute from "./components/Route/AdminRoute";
+import LayoutRoute from "./components/Route/LayoutRoute";
 import Profile from "./components/User/Profile";
 import Cart from "./components/Cart/Cart";
 
@@ -34,12 +35,13 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Container maxWidth="lg">
-        <Routes>
+      <Routes>
+        {/* Error Path */}
+        <Route path="/401" element={<Unauthorized />} />
+        <Route path="/403" element={<ForbiddenPage />} />
+
+        <Route exact path="/" element={<LayoutRoute />}>
           <Route path="/" element={<Home />} />
-          {/* Error Path */}
-          <Route path="/401" element={<Unauthorized />} />
-          <Route path="/403" element={<ForbiddenPage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
@@ -47,41 +49,23 @@ function App() {
           <Route path="/products/:keyword" element={<ProductList />} />
           <Route exact path="/me" element={<ProtectedRoute />}>
             <Route path="/me" element={<Profile />} />
-          </Route>
-          <Route exact path="/me/update" element={<ProtectedRoute />}>
             <Route path="/me/update" element={<UpdateProfile />} />
-          </Route>
-          <Route exact path="/me/update/password" element={<ProtectedRoute />}>
             <Route path="/me/update/password" element={<UpdatePassword />} />
-          </Route>
-          <Route exact path="/cart" element={<ProtectedRoute />}>
-            <Route path="/cart" element={<Cart />} />
-          </Route>
-          <Route exact path="/me/order/:id" element={<ProtectedRoute />}>
+            <Route path="/me/cart" element={<Cart />} />
             <Route path="/me/order/:id" element={<Order />} />
           </Route>
+        </Route>
 
-          {/* Admin Route */}
-          <Route exact path="/admin" element={<AdminRoute />}>
-            <Route path="/admin" element={<AdminMenu />} />
-          </Route>
-          <Route exact path="/admin/dashboard" element={<AdminRoute />}>
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          </Route>
-          <Route exact path="/admin/products" element={<AdminRoute />}>
-            <Route path="/admin/products" element={<AdminProducts />} />
-          </Route>
-          <Route exact path="/admin/orders" element={<AdminRoute />}>
-            <Route path="/admin/orders" element={<AdminOrders />} />
-          </Route>
-          <Route exact path="/admin/users" element={<AdminRoute />}>
-            <Route path="/admin/users" element={<AdminUsers />} />
-          </Route>
-          <Route exact path="/admin/reviews" element={<AdminRoute />}>
-            <Route path="/admin/reviews" element={<AdminReviews />} />
-          </Route>
-        </Routes>
-      </Container>
+        {/* Admin Route */}
+        <Route exact path="/admin" element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminMenu />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/reviews" element={<AdminReviews />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

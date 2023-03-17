@@ -68,6 +68,11 @@ const Profile = () => {
                                     Update Profile
                                 </Button>
                             </Link>
+                            <Link style={{ textDecoration: 'none' }} to='/admin/dashboard'>
+                                <Button variant="contained" color="warning" sx={{ textTransform: "none", mt: 2, px: 1, mx: 2, width: 150, whiteSpace: 'nowrap' }}>
+                                    Admin
+                                </Button>
+                            </Link>
 
                         </Box>
 

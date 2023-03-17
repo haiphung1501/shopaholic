@@ -230,7 +230,7 @@ export default function Header() {
                     <Avatar src={user.user.avatar.url} />
                   </IconButton>
                 </Link>
-                <Link to='/cart'>
+                <Link to='me/cart'>
                   <IconButton sx={{ pr: 2 }} color='white' aria-label="cart" >
                     <Badge badgeContent={totalItemsInCart} color="primary">
                       <ShoppingCartIcon style={{ color: 'white' }} />
