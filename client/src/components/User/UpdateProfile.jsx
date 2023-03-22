@@ -67,6 +67,7 @@ export default function UpdateProfile() {
     };
 
     const handleFormSubmit = (data) => {
+        console.log(avatarUrl);
         const myForm = new FormData();
         myForm.append('name', data.name);
         myForm.append('avatar', avatarUrl);
@@ -101,7 +102,6 @@ export default function UpdateProfile() {
                                 <Avatar sx={{ width: 200, height: 200 }} src={previewImage || avatarUrl} />
                             </IconButton>
                         </label>
-
                     </Grid>
                     <Grid item xs={12}>
                         <TextField

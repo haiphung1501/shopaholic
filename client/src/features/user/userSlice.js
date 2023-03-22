@@ -1,7 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import { adminGetAllUsersReq } from "../../apis/index";
+
+export const adminGetAllUsers = createAsyncThunk(
+  "user/adminGetAllUsers",
+  async (arg, thunkAPI) => {
+    try {
+      const { data } = await adminGetAllUsersReq();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 const initialState = {
+  users: [],
   user: null,
   loading: false,
   error: null,
@@ -107,6 +121,19 @@ const userSlice = createSlice({
       state.error = null;
       state.isAuthenticated = true;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(adminGetAllUsers.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminGetAllUsers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    });
+    builder.addCase(adminGetAllUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 

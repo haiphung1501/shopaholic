@@ -17,6 +17,12 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { adminGetAllProduct } from '../../features/product/productSlice'
+import { adminGetAllUsers } from '../../features/user/userSlice';
+import { adminGetAllOrders } from '../../features/order/orderSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -83,16 +89,27 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
     const [open, setOpen] = React.useState(true);
+    const dispatch = useDispatch()
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
+    useEffect(() => {
+        dispatch(adminGetAllProduct())
+        dispatch(adminGetAllUsers())
+        dispatch(adminGetAllOrders())
+
+    }, [dispatch])
+
+    const { products, loading } = useSelector(state => state.product.products)
+    console.log(products)
+
+    if (loading) {
+        return <CircularProgress />
+    }
     return (
         <ThemeProvider theme={mdTheme}>
-            <Box sx={{ display: 'flex', border: 1 }}>
-                <Typography variant="h6" noWrap component="div">
-                    dsadsa
-                </Typography>
+            <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Box
                     component="main"
@@ -110,6 +127,50 @@ function DashboardContent() {
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={3}>
                             {/* Chart */}
+                            <Grid item xs={12} md={6} lg={3}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        height: 240,
+                                    }}
+                                >
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        height: 240,
+                                    }}
+                                >
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        height: 240,
+                                    }}
+                                >
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        height: 240,
+                                    }}
+                                >
+                                </Paper>
+                            </Grid>
                             <Grid item xs={12} md={8} lg={9}>
                                 <Paper
                                     sx={{
@@ -121,6 +182,7 @@ function DashboardContent() {
                                 >
                                 </Paper>
                             </Grid>
+
                             {/* Recent Deposits */}
                             <Grid item xs={12} md={4} lg={3}>
                                 <Paper

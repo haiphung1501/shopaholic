@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/catchAsyncError");
+const cloudinary = require("cloudinary");
 
 const productController = {
   getAllProduct: async (req, res) => {
@@ -22,6 +23,13 @@ const productController = {
       res.status(500).json(err);
     }
   },
+  adminGetAllProduct: catchAsyncError(async (req, res) => {
+    const products = await Product.find();
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  }),
   getAllCategory: catchAsyncError(async (req, res) => {
     const categories = await Product.find().distinct("category");
     res.status(200).json({
@@ -43,16 +51,27 @@ const productController = {
     }
   },
 
-  createProduct: async (req, res) => {
-    try {
-      req.body.user = req.user.id;
-      const newProduct = new Product(req.body);
-      const savedProduct = await newProduct.save();
-      res.status(200).json(savedProduct);
-    } catch (err) {
-      res.status(500).json(err);
+  createProduct: catchAsyncError(async (req, res, next) => {
+    let images = [];
+
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images;
     }
-  },
+
+    const imageLinks = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+      imageLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+  }),
   updateProduct: async (req, res, next) => {
     try {
       const product = await Product.findById(req.params.id);

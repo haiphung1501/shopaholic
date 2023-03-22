@@ -137,3 +137,41 @@ export const createReviewReq = async (rating, comment, productId) => {
     config
   );
 };
+
+//ADMIN
+
+export const adminGetAllProductsReq = async () => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get(
+    "http://localhost:4000/api/product/admin/products",
+    config
+  );
+};
+
+export const adminGetAllUsersReq = async () => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get("http://localhost:4000/api/user/admin/users", config);
+};
+
+export const adminGetAllOrdersReq = async () => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.get(
+    "http://localhost:4000/api/order/admin/orders",
+    config
+  );
+};

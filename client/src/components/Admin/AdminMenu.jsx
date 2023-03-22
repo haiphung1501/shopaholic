@@ -126,7 +126,6 @@ export default function AdminMenu({ children }) {
                     }}>
                     {children}
                 </Box>
-
             </Box>
 
         </React.Fragment>

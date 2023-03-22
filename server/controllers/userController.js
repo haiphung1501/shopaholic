@@ -2,7 +2,7 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
 const sendToken = require("../utils/jwtToken");
-const cloundinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 
 const userController = {
   createUser: async (req, res) => {
@@ -95,9 +95,9 @@ const userController = {
       const user = await User.findById(req.user.id);
       const image_id = user.avatar.public_id;
 
-      await cloundinary.v2.uploader.destroy(image_id);
+      await cloudinary.v2.uploader.destroy(image_id);
 
-      const result = await cloundinary.v2.uploader.upload(req.body.avatar, {
+      const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: "avatars",
         width: 150,
         crop: "scale",

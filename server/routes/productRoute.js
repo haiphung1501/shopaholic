@@ -6,6 +6,13 @@ const router = express.Router();
 
 router.get("/category", productController.getAllCategory);
 
+router.get(
+  "/admin/products",
+  authController.isAuthenticatedUser,
+  authController.authorizeRoles("admin"),
+  productController.adminGetAllProduct
+);
+
 router.get("/", productController.getAllProduct);
 
 router.post(

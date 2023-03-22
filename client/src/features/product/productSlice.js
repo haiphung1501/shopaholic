@@ -1,9 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { adminGetAllProductsReq } from "../../apis/index";
 const initialState = {
   products: [],
   productsCount: 0,
 };
+
+export const adminGetAllProduct = createAsyncThunk(
+  "product/AdminGetAllProduct",
+  async (arg, thunkAPI) => {
+    try {
+      const { data } = await adminGetAllProductsReq();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 const productSlice = createSlice({
   name: "product",

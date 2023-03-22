@@ -30,6 +30,7 @@ import AdminOrders from "./components/Admin/AdminOrders";
 import AdminUsers from "./components/Admin/AdminUsers";
 
 import AdminReviews from "./components/Admin/AdminReviews";
+import AdminNewProduct from "./components/Admin/AdminNewProduct";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           <Route path="/admin" element={<AdminMenu />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/products/new" element={<AdminNewProduct />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/reviews" element={<AdminReviews />} />
