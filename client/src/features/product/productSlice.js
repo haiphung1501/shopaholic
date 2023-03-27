@@ -1,10 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { adminGetAllProductsReq } from "../../apis/index";
+import {
+  adminGetAllProductsReq,
+  adminCreateProductReq,
+  adminDeleteProductReq,
+} from "../../apis/index";
 const initialState = {
   products: [],
   productsCount: 0,
 };
 
+export const adminDeleteProduct = createAsyncThunk(
+  "product/AdminDeleteProduct",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await adminDeleteProductReq(id);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const adminCreateProduct = createAsyncThunk(
+  "product/AdminCreateProduct",
+  async (productData, thunkAPI) => {
+    try {
+      const { data } = await adminCreateProductReq(productData);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 export const adminGetAllProduct = createAsyncThunk(
   "product/AdminGetAllProduct",
   async (arg, thunkAPI) => {
@@ -50,6 +77,42 @@ const productSlice = createSlice({
         error: null,
       };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(adminGetAllProduct.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminGetAllProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = action.payload.products;
+      state.productsCount = action.payload.productsCount;
+      state.minPrice = action.payload.minPrice;
+      state.maxPrice = action.payload.maxPrice;
+    });
+    builder.addCase(adminGetAllProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(adminCreateProduct.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminCreateProduct.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(adminCreateProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(adminDeleteProduct.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminDeleteProduct.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(adminDeleteProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 

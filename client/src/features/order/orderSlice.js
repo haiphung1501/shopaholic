@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllOrdersReq, adminGetAllOrdersReq } from "../../apis/index";
+import {
+  getAllOrdersReq,
+  adminGetAllOrdersReq,
+  adminDeleteOrderReq,
+} from "../../apis/index";
 
 export const getAllOrders = createAsyncThunk(
   "orders/getAllOrders",
@@ -18,6 +22,18 @@ export const adminGetAllOrders = createAsyncThunk(
   async (arg, thunkAPI) => {
     try {
       const { data } = await adminGetAllOrdersReq();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const adminDeleteOrder = createAsyncThunk(
+  "orders/adminDeleteOrder",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await adminDeleteOrderReq(id);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -55,6 +71,16 @@ const orderSlice = createSlice({
       state.orders = action.payload;
     });
     builder.addCase(adminGetAllOrders.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(adminDeleteOrder.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminDeleteOrder.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(adminDeleteOrder.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

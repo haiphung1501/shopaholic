@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const cloudinary = require("cloudinary");
 const errorMiddleware = require("./middlewares/error");
@@ -27,6 +28,8 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());

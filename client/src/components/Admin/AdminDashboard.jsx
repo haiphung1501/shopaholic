@@ -102,7 +102,6 @@ function DashboardContent() {
     }, [dispatch])
 
     const { products, loading } = useSelector(state => state.product.products)
-    console.log(products)
 
     if (loading) {
         return <CircularProgress />

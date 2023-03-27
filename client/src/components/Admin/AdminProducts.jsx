@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Container,
     TableContainer,
@@ -11,17 +11,50 @@ import {
     Paper,
     IconButton,
     Box,
-    Grid
+    Grid,
+    Backdrop,
+    CircularProgress,
+    Snackbar
 } from '@mui/material'
 import { useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { adminGetAllProduct, adminDeleteProduct } from '../../features/product/productSlice'
 export default function AdminProducts() {
-    const { products } = useSelector(state => state.product)
-    console.log(products)
+    const dispatch = useDispatch()
+    const [deleting, setDeleting] = useState(false)
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+
+    useEffect(() => {
+        dispatch(adminGetAllProduct())
+    }, [dispatch])
+
+    const onDeleteHandler = async (id) => {
+        try {
+            setDeleting(true)
+            dispatch(adminDeleteProduct(id))
+            setDeleting(false)
+            setSnackbarOpen(true)
+        } catch (error) {
+            console.log(error)
+
+        }
+    }
+    const { loading, products } = useSelector(state => state.product)
+
+    if (loading) return (
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '40vh',
+        }}>
+            <CircularProgress />
+        </Box>
+    )
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
@@ -62,7 +95,7 @@ export default function AdminProducts() {
                                             <EditIcon size='small' />
                                         </Link>
                                     </IconButton>
-                                    <IconButton size='small'>
+                                    <IconButton onClick={() => { onDeleteHandler(item._id) }} size='small'>
                                         <Link>
                                             <DeleteIcon size='small' />
                                         </Link>
@@ -73,6 +106,15 @@ export default function AdminProducts() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Backdrop open={deleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={() => setSnackbarOpen(false)}
+                message="Product deleted successfully"
+            />
         </Container>
     )
 }

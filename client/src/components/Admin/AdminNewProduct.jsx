@@ -10,14 +10,18 @@ import {
     Typography,
     Grid,
     Paper,
-    Autocomplete
+    Autocomplete,
+    Back
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import { useForm, Controller } from "react-hook-form";
 import { getAllCategory } from '../../apis';
+import { adminCreateProduct } from '../../features/product/productSlice'
+import { useDispatch } from 'react-redux';
 
 
 const AdminCreateProduct = () => {
+    const dispatch = useDispatch();
     const [previewImages, setPreviewImages] = useState([])
     const [selectedCategory, setSelectedCategory] = useState('')
     const [inputCategoty, setInputCategory] = useState('')
@@ -74,7 +78,9 @@ const AdminCreateProduct = () => {
 
     const onSubmit = (data) => {
         console.log(data);
-        // TODO: Implement logic to create product
+        dispatch(adminCreateProduct(data)).then((res) => {
+            console.log(res)
+        });
     };
 
     return (

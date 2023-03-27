@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const baseURL = "http://localhost:4000/api";
+
 export const getAllProductReq = (keyword = "") =>
   axios.get(`http://localhost:4000/api/product?search=${keyword}`);
 
@@ -160,7 +162,7 @@ export const adminGetAllUsersReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get("http://localhost:4000/api/user/admin/users", config);
+  return await axios.get(baseURL + "/user/admin/users", config);
 };
 
 export const adminGetAllOrdersReq = async () => {
@@ -174,4 +176,47 @@ export const adminGetAllOrdersReq = async () => {
     "http://localhost:4000/api/order/admin/orders",
     config
   );
+};
+export const adminCreateProductReq = async (productData) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.post(
+    "http://localhost:4000/api/product/",
+    productData,
+    config
+  );
+};
+export const adminDeleteProductReq = async (id) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.delete(`http://localhost:4000/api/product/${id}`, config);
+};
+export const adminDeleteOrderReq = async (id) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.delete(
+    `http://localhost:4000/api/order/admin/order/${id}`,
+    config
+  );
+};
+export const adminDeleteUserReq = async (id) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.delete(baseURL + `/user/admin/user/${id}`, config);
 };

@@ -45,6 +45,7 @@ router.put(
 router.delete(
   "/:id",
   authController.isAuthenticatedUser,
+  authController.authorizeRoles("admin"),
   productController.deleteProduct
 );
 

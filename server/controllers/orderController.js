@@ -91,6 +91,7 @@ const orderController = {
   }),
 
   deleteOrder: catchAsyncError(async (req, res, next) => {
+    console.log(req.params.id, "test delete order");
     const order = await Order.findById(req.params.id);
     if (!order) {
       return next(new ErrorHandler("No Order Found", 404));

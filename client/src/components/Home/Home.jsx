@@ -18,7 +18,6 @@ export default function Home() {
     const { products, loading, error } = useSelector(state => state.product)
 
     useEffect(() => {
-        if (error) { return alert.error(error); }
         dispatch(allProductRequest())
         getAllProductReq()
             .then(({ data }) => {

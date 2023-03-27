@@ -45,9 +45,6 @@ export default function Order() {
                 </Typography>
             </Box>
 
-            <Box>
-
-            </Box>
             <TableContainer sx={{ mt: 3 }} component={Paper}>
                 <Table sx={{ minWidth: 650 }}>
                     <TableHead>
