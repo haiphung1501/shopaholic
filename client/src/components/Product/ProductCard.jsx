@@ -20,7 +20,7 @@ export default function ProductCard({ product }) {
   }
   return <>
     <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-      <Card sx={{ height: 400, width: 270, mt: 2 }}>
+      <Card sx={{ height: 330, width: 270, mt: 2 }}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -39,8 +39,8 @@ export default function ProductCard({ product }) {
                 {product.numOfReviews} Reviews
               </Typography>
             </Box>
-            <Typography color='primary' gutterBottom variant="h6" component="span">
-              {`${product.price} VNĐ`}
+            <Typography color='#2196f3' font='Roboto' gutterBottom variant="h6" component="span">
+              {`${product.price.toLocaleString()} VNĐ`}
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -68,6 +68,7 @@ const orderController = {
 
   updateOrder: catchAsyncError(async (req, res, next) => {
     const order = await Order.findById(req.params.id);
+    console.log("Order", req.body);
     if (!order) {
       return next(new ErrorHandler("No Order Found", 404));
     }
@@ -76,7 +77,7 @@ const orderController = {
         new ErrorHandler("You have already delivered this order", 400)
       );
     }
-    if (req.body.orderStatus === "Shipped") {
+    if (req.body.orderStatus === "Shipping") {
       order.orderItems.forEach(async (item) => {
         await updateStock(item.product, item.quantity);
       });

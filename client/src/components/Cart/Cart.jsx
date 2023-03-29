@@ -18,7 +18,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from "react-redux";
-import { addToCartAction, removeFromCartAction } from "../../features/cart/cartSlice";
+import { addToCartAction, removeFromCartAction, emptyCart } from "../../features/cart/cartSlice";
 import { createOrderAction } from "../../features/order/orderDetailSlice";
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -55,13 +55,14 @@ const Cart = () => {
         setTotalPrice(cartItems.reduce((acc, item) => acc + item.qty * item.price, 0));
     }, [cartItems]);
 
-    const checkOutHandler = () => {
+    const checkOutHandler = async () => {
         const data = {
             orderItems: cartItems,
             totalPrice,
         }
-        dispatch(createOrderAction(data))
-        navigate(`/me/order/${order._id}`, { replace: true })
+        const res = await dispatch(createOrderAction(data))
+        dispatch(emptyCart())
+        navigate(`/me/order/${res.order._id}`, { replace: true })
     }
 
     return (

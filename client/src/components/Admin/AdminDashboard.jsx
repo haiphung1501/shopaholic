@@ -13,16 +13,19 @@ import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { adminGetAllProduct } from '../../features/product/productSlice'
 import { adminGetAllUsers } from '../../features/user/userSlice';
 import { adminGetAllOrders } from '../../features/order/orderSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
+import DoughnutChart from '../Charts/DoughnutChart';
+import LineChart from '../Charts/LineChart';
 
 
 
@@ -101,7 +104,9 @@ function DashboardContent() {
 
     }, [dispatch])
 
-    const { products, loading } = useSelector(state => state.product.products)
+    const { products, loading } = useSelector(state => state.product)
+    const { users } = useSelector(state => state.user)
+    const { orders } = useSelector(state => state.orders)
 
     if (loading) {
         return <CircularProgress />
@@ -127,15 +132,76 @@ function DashboardContent() {
                         <Grid container spacing={3}>
                             {/* Chart */}
                             <Grid item xs={12} md={6} lg={3}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
-                                </Paper>
+                                <Link to='/admin/products' style={{
+                                    textDecoration: 'none',
+                                }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            height: 240,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <ShoppingCartIcon sx={{ fontSize: 72 }} />
+                                        <Typography fontFamily='Roboto Slab' fontWeight='bold' variant="h6" sx={{ mt: 2 }}>
+                                            Products
+                                        </Typography>
+                                        <Typography variant="h3" sx={{ mt: 1, color: 'primary.main' }}>
+                                            {products.length}
+                                        </Typography>
+                                    </Paper>
+                                </Link>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <Link to='/admin/users' style={{
+                                    textDecoration: 'none',
+                                }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            height: 240,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <AccountCircleIcon sx={{ fontSize: 72 }} />
+                                        <Typography fontFamily='Roboto Slab' fontWeight='bold' variant="h6" sx={{ mt: 2 }}>
+                                            Users
+                                        </Typography>
+                                        <Typography variant="h3" sx={{ mt: 1, color: 'primary.main' }}>
+                                            {users.length}
+                                        </Typography>
+                                    </Paper>
+                                </Link>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <Link to='/admin/orders' style={{
+                                    textDecoration: 'none',
+                                }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            height: 240,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <ShoppingBasketIcon sx={{ fontSize: 72 }} />
+                                        <Typography fontFamily='Roboto Slab' fontWeight='bold' variant="h6" sx={{ mt: 2 }}>
+                                            Orders
+                                        </Typography>
+                                        <Typography variant="h3" sx={{ mt: 1, color: 'primary.main' }}>
+                                            {orders.orders.length}
+                                        </Typography>
+                                    </Paper>
+                                </Link>
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
                                 <Paper
@@ -148,50 +214,32 @@ function DashboardContent() {
                                 >
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
+                            <Grid item xs={12} md={8} lg={8}>
                                 <Paper
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
+                                        height: 280,
                                     }}
                                 >
-                                </Paper>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
-                                </Paper>
-                            </Grid>
-                            <Grid item xs={12} md={8} lg={9}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
+                                    <LineChart />
                                 </Paper>
                             </Grid>
 
                             {/* Recent Deposits */}
-                            <Grid item xs={12} md={4} lg={3}>
+                            <Grid item xs={12} md={4} lg={4}>
                                 <Paper
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
+                                        height: 280,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                     }}
                                 >
+                                    <DoughnutChart />
                                 </Paper>
                             </Grid>
                             {/* Recent Orders */}

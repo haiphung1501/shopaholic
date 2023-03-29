@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:4000/api";
+const baseURL = "http://localhost:4000";
 
 export const getAllProductReq = (keyword = "") =>
   axios.get(`http://localhost:4000/api/product?search=${keyword}`);
@@ -162,7 +162,7 @@ export const adminGetAllUsersReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get(baseURL + "/user/admin/users", config);
+  return await axios.get(baseURL + "/api/user/admin/users", config);
 };
 
 export const adminGetAllOrdersReq = async () => {
@@ -218,5 +218,18 @@ export const adminDeleteUserReq = async (id) => {
     },
     withCredentials: true,
   };
-  return await axios.delete(baseURL + `/user/admin/user/${id}`, config);
+  return await axios.delete(baseURL + `/api/user/admin/user/${id}`, config);
+};
+export const adminUpdateOrderReq = async (id, orderData) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.put(
+    baseURL + `/api/order/admin/order/${id}`,
+    orderData,
+    config
+  );
 };

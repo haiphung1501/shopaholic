@@ -3,6 +3,7 @@ import {
   getAllOrdersReq,
   adminGetAllOrdersReq,
   adminDeleteOrderReq,
+  adminUpdateOrderReq,
 } from "../../apis/index";
 
 export const getAllOrders = createAsyncThunk(
@@ -34,6 +35,17 @@ export const adminDeleteOrder = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const { data } = await adminDeleteOrderReq(id);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const adminUpdateOrder = createAsyncThunk(
+  "orders/adminUpdateOrder",
+  async ({ id, orderData }, thunkAPI) => {
+    try {
+      const { data } = await adminUpdateOrderReq(id, orderData);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -81,6 +93,16 @@ const orderSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(adminDeleteOrder.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(adminUpdateOrder.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminUpdateOrder.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(adminUpdateOrder.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

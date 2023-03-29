@@ -14,7 +14,12 @@ import {
     Grid,
     Backdrop,
     CircularProgress,
-    Snackbar
+    Snackbar,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Button,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
@@ -23,9 +28,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import { adminGetAllOrders, adminDeleteOrder } from '../../features/order/orderSlice'
+import { adminGetAllOrders, adminDeleteOrder, adminUpdateOrder } from '../../features/order/orderSlice'
 export default function AdminOrders() {
     const [deleting, setDeleting] = useState(false)
+    const [updating, setUpdating] = useState(false)
     const [snackbarOpen, setSnackbarOpen] = useState(false)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -40,6 +46,17 @@ export default function AdminOrders() {
             setSnackbarOpen(true)
         }
         catch (error) { console.log(error) }
+    }
+    const handleChange = async (id, event) => {
+        console.log(id);
+        console.log(event.target.value);
+        try {
+            setUpdating(true)
+            await dispatch(adminUpdateOrder({ id, orderData: { orderStatus: event.target.value } }))
+            await dispatch(adminGetAllOrders())
+            setUpdating(false)
+            setSnackbarOpen(true)
+        } catch (error) { console.log(error) }
     }
     const { orders, loading } = useSelector(state => state.orders)
     const ordersToList = [...orders.orders].reverse()
@@ -80,16 +97,64 @@ export default function AdminOrders() {
                                 </TableCell>
                                 <TableCell align="center">{moment(item.createAt).format('DD-MM-YYYY')}</TableCell>
                                 <TableCell align="center">
-                                    <Typography variant="subtitle"
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            fontWeight: 500,
-                                            width: 130,
-                                            color: item.status === 'success' ? 'green' : item.status === 'declined' ? 'red' : 'primary.main',
-                                        }}
-                                    >
-                                        {item.orderStatus}
-                                    </Typography>
+
+                                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                        <InputLabel fid="demo-simple-select-standard-label">Status</InputLabel>
+                                        <Select
+                                            id="demo-simple-select-standard"
+                                            defaultValue={item.orderStatus}
+                                            onChange={(e) => handleChange(item._id, e)}
+                                        >
+                                            <MenuItem value={"Processing"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'primary.main'
+                                                    }}
+                                                >
+                                                    Processing
+                                                </Typography>
+                                            </MenuItem>
+                                            <MenuItem value={"Shipping"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'warning.main',
+                                                    }}
+                                                >
+                                                    Shipping
+                                                </Typography>
+                                            </MenuItem>
+                                            <MenuItem value={"Delivered"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'success.main',
+                                                    }}
+                                                >
+                                                    Delivered
+                                                </Typography>
+                                            </MenuItem>
+                                            <MenuItem value={"Declined"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'error.main',
+                                                    }}
+                                                >
+                                                    Declined
+                                                </Typography>
+                                            </MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </TableCell>
                                 <TableCell align="center">
                                     {item.totalPrice}
@@ -118,7 +183,7 @@ export default function AdminOrders() {
                 open={snackbarOpen}
                 autoHideDuration={3000}
                 onClose={() => setSnackbarOpen(false)}
-                message="Order deleted successfully"
+                message="Successfully"
             />
         </Container>
     )

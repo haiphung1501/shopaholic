@@ -13,6 +13,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ReviewCard from './ReviewCard'
 import Loader from '../layout/Loader'
 import { addToCartAction } from '../../features/cart/cartSlice'
+import ProductCard from './ProductCard'
 
 
 export default function ProductDetail() {
@@ -20,10 +21,14 @@ export default function ProductDetail() {
     const { id } = useParams();
     const alert = useAlert();
     const { product, loading, error } = useSelector(state => state.productDetail)
+    const { products } = useSelector(state => state.product)
+    const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [render, setRender] = useState(false);
+
+
 
     const handleRatingChange = (event, newValue) => {
         setRating(newValue);
@@ -57,14 +62,20 @@ export default function ProductDetail() {
     useEffect(() => {
         if (error) { return alert.error(error) }
         dispatch(productDetailRequest())
-        getProductDetailReq(id)
-            .then(({ data }) => {
-                dispatch(productDetailSuccess(data))
-            })
-            .catch((error) => {
-                dispatch(productDetailFailed(error))
-            })
-    }, [dispatch, error, alert, id, render])
+        const fetchData = async () => {
+            await getProductDetailReq(id)
+                .then(({ data }) => {
+                    dispatch(productDetailSuccess(data))
+                })
+                .catch((error) => {
+                    dispatch(productDetailFailed(error))
+                })
+        }
+        fetchData();
+        const recommended = products.filter(p => p.category === product.category && p._id !== product._id);
+        setRecommendedProducts(recommended);
+    }, [dispatch, error, alert, id, render, product.category, product._id, products])
+
 
     const handleReviewSubmit = async () => {
         await createReviewReq(rating, comment, id);
@@ -72,6 +83,7 @@ export default function ProductDetail() {
         setComment("");
         setRender(!render)
     };
+
 
     const options = {
         edit: false,
@@ -81,6 +93,7 @@ export default function ProductDetail() {
         isHalf: true,
         size: window.innerWidth < 600 ? 15 : 20,
     }
+
 
     if (loading) return (<Loader />)
     return (
@@ -117,10 +130,10 @@ export default function ProductDetail() {
                                 {product.numOfReviews} Reviews
                             </Typography>
                         </Box>
-                        <Typography fontWeight='bold' variant='h5' sx={{ pb: 2 }}>
-                            {`${product.price} VNĐ`}
+                        <Typography color='#2196f3' font='Roboto' gutterBottom variant="h6" component="span">
+                            {`${product.price.toLocaleString()} VNĐ`}
                         </Typography>
-                        <Box display='flex' alignItems='center'>
+                        <Box sx={{ pt: 2 }} display='flex' alignItems='center'>
                             <IconButton onClick={decreaseQuantity}>
                                 <RemoveIcon />
                             </IconButton>
@@ -149,6 +162,19 @@ export default function ProductDetail() {
                             </Typography>
                         </Box>
                     </Grid>
+                </Grid>
+            </Box>
+            <Box sx={{ borderTop: 1, mt: 5 }}>
+                <Grid container spacing={2} sx={{ mt: 3 }}>
+                    {
+                        recommendedProducts.map((product, index) => {
+                            return (
+                                <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                                    <ProductCard product={product} />
+                                </Grid>
+                            )
+                        })
+                    }
                 </Grid>
             </Box>
             <Box sx={{ borderTop: 1, mt: 5 }}>

@@ -18,6 +18,8 @@ function MyOrders() {
 
     const { loading, error, orders } = useSelector(state => state.orders)
 
+    const ordersToList = [...orders.orders].reverse()
+
     if (loading) return (
         <Box sx={{
             display: 'flex',
@@ -54,7 +56,7 @@ function MyOrders() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {orders.orders.map((order, index) => (
+                    {ordersToList.map((order, index) => (
                         <TableRow key={order._id} sx={{ '&:nth-of-type(odd)': { backgroundColor: '#f5f5f5' } }}>
                             <TableCell>
                                 <Link to={`/me/order/${order._id}`} style={{ textDecoration: 'none', color: 'black' }}>
@@ -81,7 +83,7 @@ function MyOrders() {
                                         borderRadius: 4,
                                         width: 130,
                                         color: 'white',
-                                        bgcolor: order.status === 'success' ? 'green' : order.status === 'declined' ? 'red' : 'primary.main',
+                                        bgcolor: order.orderStatus === 'Delivered' ? 'success.main' : order.orderStatus === 'Declined' ? 'error.main' : order.orderStatus === 'Shipping' ? 'warning.main' : 'primary.main',
                                     }}
                                 >
                                     {order.orderStatus}

@@ -37,6 +37,7 @@ export const createOrderAction = (order) => async (dispatch) => {
     dispatch(createOrderRequest());
     const { data } = await createOrderReq(order);
     dispatch(createOrderSuccess(data.order));
+    return data;
   } catch (error) {
     dispatch(
       createOrderFail(

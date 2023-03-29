@@ -85,7 +85,7 @@ export default function AdminProducts() {
                                     {item._id}
                                 </TableCell>
                                 <TableCell >{item.name}</TableCell>
-                                <TableCell align="center">{item.qty} đ</TableCell>
+                                <TableCell align="center">{item.stock}</TableCell>
                                 <TableCell align="center">
                                     {item.price}
                                 </TableCell>

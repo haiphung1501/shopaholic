@@ -27,10 +27,13 @@ const cartSlice = createSlice({
         (x) => x.product !== action.payload
       );
     },
+    emptyCart: (state, action) => {
+      state.cartItems = [];
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, emptyCart } = cartSlice.actions;
 
 //Actions
 export const addToCartAction = (id, qty) => async (dispatch, getState) => {
