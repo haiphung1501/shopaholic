@@ -1,11 +1,12 @@
 import React from 'react';
 import { Typography, Container, Box, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const About = () => {
     return (
         <Container maxWidth="md">
-            <Box sx={{ mt: 4 }}>
-                <Typography variant="h4" align="center" gutterBottom>
+            <Box sx={{ pb: 5, pt: 4 }}>
+                <Typography variant="h2" align="center" gutterBottom>
                     Welcome to Shopaholic!
                 </Typography>
                 <Typography variant="body1" align="justify" gutterBottom>
@@ -18,9 +19,12 @@ const About = () => {
                     So why wait? Browse our selection today and find your next favorite product. And don't forget to check back often, as we're always updating our inventory with new and exciting items!
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    <Button variant="contained" color="primary">
-                        Shop Now
-                    </Button>
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" color="primary">
+                            Shop Now
+                        </Button>
+                    </Link>
+
                 </Box>
             </Box>
         </Container>

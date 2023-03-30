@@ -31,7 +31,7 @@ function MyOrders() {
         </Box>
     )
     return (
-        <Paper sx={{ pb: 4 }}>
+        <Paper sx={{ mb: 4, pb: 4 }}>
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -46,12 +46,11 @@ function MyOrders() {
                                 <Typography variant="h6">Create At</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant="h6">Status</Typography>
+                                <Typography align='center' variant="h6">Status</Typography>
                             </TableCell>
-                            <TableCell>
+                            <TableCell align='center'>
                                 <Typography variant="h6">Total</Typography>
                             </TableCell>
-
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -74,13 +73,12 @@ function MyOrders() {
 
                                 <TableCell>{moment(order.createAt).format('DD-MM-YYYY')}</TableCell>
                                 <TableCell align='center'>
-                                    <Typography variant="body1"
+                                    <Typography variant="body1" align='center'
                                         sx={{
                                             textTransform: 'capitalize',
                                             fontWeight: 500,
                                             border: 1,
                                             borderRadius: 4,
-                                            width: 130,
                                             color: 'white',
                                             bgcolor: order.orderStatus === 'Delivered' ? 'success.main' : order.orderStatus === 'Declined' ? 'error.main' : order.orderStatus === 'Shipping' ? 'warning.main' : 'primary.main',
                                         }}
@@ -88,7 +86,7 @@ function MyOrders() {
                                         {order.orderStatus}
                                     </Typography>
                                 </TableCell>
-                                <TableCell>{`${order.totalPrice.toLocaleString()} đ`}</TableCell>
+                                <TableCell align='center'>{`${order.totalPrice.toLocaleString()} đ`}</TableCell>
 
                             </TableRow>
                         ))}

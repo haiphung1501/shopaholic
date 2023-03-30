@@ -176,12 +176,12 @@ export default function ProductDetail() {
                     </Grid>
                 </Grid>
             </Paper>
-            <Box sx={{ borderTop: 1, mt: 3 }}>
+            <Box sx={{ borderTop: 1, mt: 2 }}>
                 <Grid container spacing={2} >
                     {
                         recommendedProducts.map((product, index) => {
                             return (
-                                <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                                <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ mt: 1 }}>
                                     <ProductCard product={product} />
                                 </Grid>
                             )
@@ -189,35 +189,37 @@ export default function ProductDetail() {
                     }
                 </Grid>
             </Box>
-            <Box sx={{ borderTop: 1, mt: 5 }}>
-                <Box style={{ display: "flex", alignItems: "center" }}>
-                    <Rating
-                        name="rating"
-                        value={rating}
-                        precision={0.5}
-                        onChange={handleRatingChange}
+            <Box sx={{ borderTop: 1, mt: 8, pb: 3 }}>
+                <Paper sx={{ mt: 3, p: 2 }}>
+                    <Box style={{ display: "flex", alignItems: "center" }}>
+                        <Rating
+                            name="rating"
+                            value={rating}
+                            precision={0.5}
+                            onChange={handleRatingChange}
+                        />
+                        <span style={{ marginLeft: "10px" }}>{"("}{rating}{")"}</span>
+                    </Box>
+                    <TextField
+                        id="comment"
+                        label="Comment"
+                        multiline
+                        rows={4}
+                        fullWidth
+                        variant="outlined"
+                        value={comment}
+                        onChange={handleCommentChange}
+                        style={{ marginTop: "20px" }}
                     />
-                    <span style={{ marginLeft: "10px" }}>{"("}{rating}{")"}</span>
-                </Box>
-                <TextField
-                    id="comment"
-                    label="Comment"
-                    multiline
-                    rows={4}
-                    fullWidth
-                    variant="outlined"
-                    value={comment}
-                    onChange={handleCommentChange}
-                    style={{ marginTop: "20px" }}
-                />
-                <Button
-                    onClick={handleReviewSubmit}
-                    type="submit"
-                    variant="contained"
-                    style={{ marginTop: "20px", backgroundColor: "#1976d2", color: "#fff" }}
-                >
-                    Submit
-                </Button>
+                    <Button
+                        onClick={handleReviewSubmit}
+                        type="submit"
+                        variant="contained"
+                        style={{ marginTop: "20px", backgroundColor: "#1976d2", color: "#fff" }}
+                    >
+                        Submit
+                    </Button>
+                </Paper>
                 <Grid container spacing={2} sx={{ pb: 2 }}>
                     <Grid sx={{ mt: 1 }} item xs={12} md={12} lg={12} >
                         <Typography align="center" variant="h4"

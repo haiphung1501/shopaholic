@@ -1,5 +1,6 @@
 import { styled, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
+import { Link } from 'react-router-dom'
 import React from "react";
 
 import fbIcon from "../../images/fbicon.png";
@@ -40,68 +41,7 @@ const Footer = () => {
         <Box sx={{ py: 10 }}>
             <CustomContainer>
                 <CustomContainer>
-                    <Box>
-                        <Typography
-                            sx={{
-                                fontSize: "20px",
-                                color: "#1C1C1D",
-                                fontWeight: "700",
-                                mb: 2,
-                            }}
-                        >
-                            Products
-                        </Typography>
 
-                        <FooterLink>Listing</FooterLink>
-                        <br />
-                        <FooterLink>Properties</FooterLink>
-                        <br />
-                        <FooterLink>Agents</FooterLink>
-                        <br />
-                        <FooterLink>Blog</FooterLink>
-                    </Box>
-
-                    <Box>
-                        <Typography
-                            sx={{
-                                fontSize: "20px",
-                                color: "#1C1C1D",
-                                fontWeight: "700",
-                                mb: 2,
-                            }}
-                        >
-                            Resources
-                        </Typography>
-
-                        <FooterLink>Our Homes</FooterLink>
-                        <br />
-                        <FooterLink>Stories</FooterLink>
-                        <br />
-                        <FooterLink>Video</FooterLink>
-                        <br />
-                        <FooterLink>Free Trial</FooterLink>
-                    </Box>
-
-                    <Box>
-                        <Typography
-                            sx={{
-                                fontSize: "20px",
-                                color: "#1C1C1D",
-                                fontWeight: "700",
-                                mb: 2,
-                            }}
-                        >
-                            Company
-                        </Typography>
-
-                        <FooterLink>Partnerships</FooterLink>
-                        <br />
-                        <FooterLink>Terms of use</FooterLink>
-                        <br />
-                        <FooterLink>Privacy</FooterLink>
-                        <br />
-                        <FooterLink>Sitemap</FooterLink>
-                    </Box>
 
                     <Box>
                         <Typography
@@ -127,17 +67,17 @@ const Footer = () => {
                         </Typography>
 
                         <IconBox>
-                            <img src={fbIcon} alt="fbIcon" style={{ cursor: "pointer" }} />
-                            <img
-                                src={twitterIcon}
-                                alt="twitterIcon"
-                                style={{ cursor: "pointer" }}
-                            />
-                            <img
-                                src={linkedinIcon}
-                                alt="linkedinIcon"
-                                style={{ cursor: "pointer" }}
-                            />
+                            <Link to='https://www.facebook.com/impdh/' style={{ textDecoration: 'none' }}>
+                                <img src={fbIcon} alt="fbIcon" style={{ cursor: "pointer" }} />
+                            </Link>
+                            <Link to='https://www.linkedin.com/in/haiph02/' style={{ textDecoration: 'none' }}>
+                                <img
+                                    src={linkedinIcon}
+                                    alt="linkedinIcon"
+                                    style={{ cursor: "pointer" }}
+                                />
+                            </Link>
+
                         </IconBox>
                     </Box>
                 </CustomContainer>

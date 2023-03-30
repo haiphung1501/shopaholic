@@ -18,9 +18,14 @@ export default function ProductCard({ product }) {
         isHalf: true,
         size: window.innerWidth < 600 ? 10 : 15,
     }
-    return <>
+    return (
         <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-            <Card sx={{ height: 300, width: 270, mt: 2 }}>
+            <Card sx={{
+                height: 300, width: 270, mt: 2,
+                [`@media (max-width:600px)`]: {
+                    width: "100%"
+                }
+            }}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -33,9 +38,7 @@ export default function ProductCard({ product }) {
                         <Typography variant="body1" fontWeight='bold' component="div">
                             {product.name}
                         </Typography>
-                        <Box >
-                            <ReactStars {...options} component="span" />
-                        </Box>
+
                         <Typography color='#2196f3' font='Roboto' variant="body1" component="span" fontWeight='bold'>
                             {`${product.price.toLocaleString()} VNĐ`}
                         </Typography>
@@ -43,7 +46,5 @@ export default function ProductCard({ product }) {
                 </CardActionArea>
             </Card>
         </Link>
-
-    </>
-
+    )
 }

@@ -19,7 +19,16 @@ const FeaturedProduct = () => {
             textAlign: "center",
         },
     }));
-
+    const CustomBoxAgain = styled(Box)(({ theme }) => ({
+        gap: theme.spacing(5),
+        marginTop: theme.spacing(3),
+        [theme.breakpoints.down("md")]: {
+            marginTop: theme.spacing(-20),
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+        },
+    }));
     const Title = styled(Typography)(({ theme }) => ({
         fontSize: "64px",
         color: "#000336",
@@ -44,7 +53,7 @@ const FeaturedProduct = () => {
                             style={{ maxWidth: "100%", marginBottom: "2rem" }}
                         />
                     </Box>
-                    <Box sx={{ mt: 18, flex: "1" }}>
+                    <CustomBoxAgain sx={{ mt: 18, flex: "1" }}>
                         <Title variant="h1" component='span'>
                             PUMA
                         </Title>
@@ -65,7 +74,7 @@ const FeaturedProduct = () => {
                                 heroBtn={true}
                             />
                         </Link>
-                    </Box>
+                    </CustomBoxAgain>
                 </CustomBox>
             </Container>
         </Box >

@@ -78,7 +78,8 @@ export default function UpdateProfile() {
     return (
         <Box
             sx={{
-                marginTop: 8,
+                pt: 8,
+                pb: 20,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',

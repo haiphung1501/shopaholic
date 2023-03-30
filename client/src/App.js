@@ -73,6 +73,8 @@ function App() {
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/reviews" element={<AdminReviews />} />
         </Route>
+
+        <Route path="*" element={<ForbiddenPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

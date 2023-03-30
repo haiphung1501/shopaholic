@@ -20,7 +20,12 @@ export default function ProductCard({ product }) {
   }
   return <>
     <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-      <Card sx={{ height: 330, width: 270, mt: 2, p: 1 }}>
+      <Card sx={{
+        height: '100%', width: 250, flex: 1, mt: 2, p: 1,
+        [`@media (max-width:600px)`]: {
+          width: "100%"
+        }
+      }}>
         <CardActionArea>
           <CardMedia
             component="img"

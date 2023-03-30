@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { Card } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -24,6 +25,7 @@ import { userLogout } from '../../features/user/userSlice'
 import { userLogoutReq } from '../../apis';
 import Cookies from 'js-cookie'
 import { useAlert } from 'react-alert';
+import Logo from '../../images/logo.png'
 
 
 
@@ -194,15 +196,21 @@ export default function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            >
+              <img
+                src={Logo}
+                alt="Logo"
+                style={{ width: "40px", height: "40px", color: "white" }}
+              />
+            </IconButton>
+          </Link>
           <Link to='/' style={{ textDecoration: 'none' }}>
             <Typography
               color='white'

@@ -14,7 +14,7 @@ import Welcome from './Welcome'
 import Footer from '../layout/Footer'
 import { Link } from 'react-router-dom'
 import FeaturedProduct from '../layout/FeaturedProduct'
-import logosImg from '../../images/logos.png'
+import CustomButton from '../layout/CustomButton'
 
 export default function Home() {
     const PropertiesTextBox = styled(Box)(({ theme }) => ({
@@ -43,7 +43,7 @@ export default function Home() {
     return <Fragment>
         <Welcome />
         <FeaturedProduct />
-        <Box sx={{ backgroundColor: "#fafafa", py: 5 }}>
+        <Box sx={{ backgroundColor: "#fafafa", mb: 5 }}>
             <Container>
                 <Typography
                     sx={{ color: "#000339", fontSize: "35px", fontWeight: "bold" }}
@@ -62,15 +62,25 @@ export default function Home() {
                             })
                         }
                     </Grid>
-                    <Link style={{ textDecoration: 'none' }} to='products' >
-                        <Typography align='center' sx={{ mt: 2, color: "black", fontSize: '20px' }}>
-                            All Products
-                        </Typography>
-                    </Link>
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        mt: 3,
+                        pb: 3,
+
+                    }}>
+                        <Link style={{ textDecoration: 'none' }} to='products' >
+                            <CustomButton
+                                backgroundColor="#0F1B4C"
+                                color="#fff"
+                                buttonText="All Products"
+                                heroBtn={true}
+                                alignItem='center'
+                            />
+                        </Link>
+                    </Box>
                 </PropertiesTextBox>
-            </Container>
-            <Container sx={{ display: "flex", flexDirection: "column", mb: -15 }}>
-                <img src={logosImg} alt="logos" />
             </Container>
         </Box>
     </Fragment >
