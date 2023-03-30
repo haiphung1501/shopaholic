@@ -22,7 +22,7 @@ export default function Order() {
     if (loading) return <CircularProgress />
     return (
         <>
-            <Typography fontFamily='Roboto Slab' variant="h5" fontWeight='light' sx={{ mt: 2 }}>Order #{order._id}</Typography>
+            <Typography fontFamily='Roboto Slab' variant="h5" fontWeight='light' sx={{ pt: 2 }}>Order #{order._id}</Typography>
             <Box sx={{
                 mt: 2,
                 display: 'flex',
@@ -46,7 +46,7 @@ export default function Order() {
             </Box>
 
             <TableContainer sx={{ mt: 3 }} component={Paper}>
-                <Table sx={{ minWidth: 650 }}>
+                <Table sx={{ minWidth: 650, backgroundColor: 'white' }}>
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Image</TableCell>
@@ -63,11 +63,11 @@ export default function Order() {
                                     <img src={item.image} alt={item.name} height="50" />
                                 </TableCell>
                                 <TableCell align="center">{item.name}</TableCell>
-                                <TableCell align="center">{item.price} đ</TableCell>
+                                <TableCell align="center">{`${item.price.toLocaleString()} đ`} </TableCell>
                                 <TableCell align="center">
                                     {item.qty}
                                 </TableCell>
-                                <TableCell align="center">{item.qty * item.price} đ
+                                <TableCell align="center">{`${(item.qty * item.price).toLocaleString()} đ`}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -76,7 +76,9 @@ export default function Order() {
                                 <Typography variant="h6"></Typography>
                             </TableCell>
                             <TableCell align="center" >
-                                <Typography variant="h6" fontWeight='500'> {order.totalPrice} đ</Typography>
+                                <Typography variant="h6" fontWeight='500'>{
+                                    `${order.totalPrice.toLocaleString()} đ`
+                                }</Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
@@ -84,6 +86,7 @@ export default function Order() {
             </TableContainer>
             <Box
                 sx={{
+                    pb: 4,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',

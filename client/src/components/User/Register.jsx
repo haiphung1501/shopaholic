@@ -17,19 +17,6 @@ import { useDispatch } from 'react-redux';
 import { userRegisterReq } from '../../apis/index'
 import { useState, useEffect } from 'react'
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function Register() {
@@ -75,7 +62,8 @@ export default function Register() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            pt: 5,
+            pb: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -209,7 +197,7 @@ export default function Register() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+
       </Container>
     </ThemeProvider>
   );

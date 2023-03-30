@@ -20,14 +20,14 @@ export default function ProductCard({ product }) {
   }
   return <>
     <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-      <Card sx={{ height: 330, width: 270, mt: 2 }}>
+      <Card sx={{ height: 330, width: 270, mt: 2, p: 1 }}>
         <CardActionArea>
           <CardMedia
             component="img"
             height="150"
             width="150"
             image={product.images[0].url}
-            alt="green iguana"
+
           />
           <CardContent>
             <Typography gutterBottom variant="h5" fontWeight='bold' component="div">

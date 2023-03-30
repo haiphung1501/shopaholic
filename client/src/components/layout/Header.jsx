@@ -97,16 +97,23 @@ export default function Header() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  function getAllCookieNames() {
+    const cookies = document.cookie.split("; ");
+    const cookieNames = cookies.map(cookie => cookie.split("=")[0]);
+    return cookieNames;
+  }
 
   const handleLogout = () => {
     userLogoutReq()
       .then(res => {
-        if (Cookies.remove("token",))
-          console.log("Cookies removed successfully.")
-        dispatch(userLogout())
-        navigate('/')
-        alert.success("Logout successfully.")
-      })
+        console.log(Cookies.get('token'))
+        Cookies.remove("token");
+        localStorage.removeItem("token");
+        console.log("Token removed successfully.");
+        dispatch(userLogout());
+        navigate('/');
+        alert.success("Logout successfully.");
+      });
   }
 
   const menuId = 'primary-search-account-menu';
@@ -184,7 +191,7 @@ export default function Header() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, mb: 3 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

@@ -157,7 +157,7 @@ export default function AdminOrders() {
                                     </FormControl>
                                 </TableCell>
                                 <TableCell align="center">
-                                    {item.totalPrice}
+                                    {`${item.totalPrice.toLocaleString()} đ`}
                                 </TableCell>
                                 <TableCell align="center" sx={{ p: 0 }}>
                                     <IconButton size='small'>

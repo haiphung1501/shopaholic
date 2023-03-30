@@ -39,7 +39,9 @@ const productController = {
   }),
   getProduct: async (req, res, next) => {
     try {
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findById(req.params.id)
+        .populate("user", "name email")
+        .populate("reviews.user", "name email avatar");
 
       if (!product) {
         return next(new ErrorHandler("Product not found", 404));

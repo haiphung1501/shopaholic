@@ -87,7 +87,7 @@ export default function AdminProducts() {
                                 <TableCell >{item.name}</TableCell>
                                 <TableCell align="center">{item.stock}</TableCell>
                                 <TableCell align="center">
-                                    {item.price}
+                                    {`${item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}`.replace('₫', 'đ')}
                                 </TableCell>
                                 <TableCell align="center" sx={{ p: 0 }}>
                                     <IconButton size='small'>

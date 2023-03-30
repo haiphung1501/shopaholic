@@ -18,6 +18,9 @@ import AdminRoute from "./components/Route/AdminRoute";
 import LayoutRoute from "./components/Route/LayoutRoute";
 import Profile from "./components/User/Profile";
 import Cart from "./components/Cart/Cart";
+import About from "./components/layout/About";
+import ScrollToTop from "./components/Route/ScrollToTop";
+import Footer from "./components/layout/Footer";
 
 import UpdateProfile from "./components/User/UpdateProfile";
 import UpdatePassword from "./components/User/UpdatePassword";
@@ -37,13 +40,15 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
+      <ScrollToTop />
       <Routes>
         {/* Error Path */}
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<ForbiddenPage />} />
+        <Route path="/" element={<Home />} />
 
         <Route exact path="/" element={<LayoutRoute />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
@@ -69,6 +74,7 @@ function App() {
           <Route path="/admin/reviews" element={<AdminReviews />} />
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

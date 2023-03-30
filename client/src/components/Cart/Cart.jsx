@@ -67,7 +67,7 @@ const Cart = () => {
 
     return (
         <>
-            <Typography fontFamily='Roboto Slab' variant="h4" fontWeight='900' sx={{ mt: 2 }}>My Cart</Typography>
+            <Typography fontFamily='Roboto Slab' variant="h4" fontWeight='900' sx={{ pt: 3 }}>My Cart</Typography>
             <TableContainer sx={{ mt: 3 }} component={Paper}>
                 <Table sx={{ minWidth: 650 }}>
                     <TableHead>
@@ -87,7 +87,7 @@ const Cart = () => {
                                     <img src={item.image} alt={item.name} height="50" />
                                 </TableCell>
                                 <TableCell >{item.name}</TableCell>
-                                <TableCell align="center">{item.price} đ</TableCell>
+                                <TableCell align="center">{`${(item.price).toLocaleString()} đ`}</TableCell>
                                 <TableCell align="center">
                                     <IconButton onClick={() => decreaseQtyHandler(item.product, item.qty)}>
                                         <RemoveIcon />
@@ -97,7 +97,7 @@ const Cart = () => {
                                         <AddIcon />
                                     </IconButton>
                                 </TableCell>
-                                <TableCell align="center">{item.qty * item.price} đ
+                                <TableCell align="center">{`${(item.qty * item.price).toLocaleString()} đ`}
                                 </TableCell>
                                 <TableCell align="center">
                                     <IconButton
@@ -114,7 +114,9 @@ const Cart = () => {
                                 <Typography variant="h6"></Typography>
                             </TableCell>
                             <TableCell align="center" >
-                                <Typography variant="h6" fontWeight='500'>{totalPrice} đ</Typography>
+                                <Typography variant="h6" fontWeight='500'>
+                                    {`${(totalPrice).toLocaleString()} đ`}
+                                </Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
@@ -122,6 +124,7 @@ const Cart = () => {
             </TableContainer>
             <Box
                 sx={{
+                    pb: 4,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -130,7 +133,7 @@ const Cart = () => {
                 <Button onClick={checkOutHandler} variant="contained" sx={{ mt: 2 }}>
                     Checkout
                 </Button>
-            </Box>
+            </Box >
         </>
     );
 };

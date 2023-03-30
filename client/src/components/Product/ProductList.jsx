@@ -106,12 +106,10 @@ export default function ProductList() {
     if (loading) return <Loader />
     return (
         <>
-            <Grid sx={{ mt: 3 }} container spacing={4}>
+            <Grid sx={{ mt: 1 }} container spacing={4}>
                 <Grid item xs={2}>
                     <Box sx={{}}>
-                        <Typography fontWeight='light' variant='h5' fontStyle='italic' >
-                            Filter Sidebar
-                        </Typography>
+
                     </Box>
                     <Box sx={{ my: 1, py: 1, borderBottom: 1 }}>
                         <Typography sx={{ mt: 4 }} fontWeight='bold' variant='h5' >

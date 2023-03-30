@@ -73,11 +73,20 @@ export default function ProductDetail() {
         }
         fetchData();
         const recommended = products.filter(p => p.category === product.category && p._id !== product._id);
+        if (recommended.length < 4) {
+            const randomProducts = products.filter(p => p._id !== product._id && !recommended.includes(p));
+            while (recommended.length < 4 && randomProducts.length > 0) {
+                const randomIndex = Math.floor(Math.random() * randomProducts.length);
+                recommended.push(randomProducts[randomIndex]);
+                randomProducts.splice(randomIndex, 1);
+            }
+        }
         setRecommendedProducts(recommended);
     }, [dispatch, error, alert, id, render, product.category, product._id, products])
 
 
     const handleReviewSubmit = async () => {
+        if (rating === 0) return alert.error("Please select a rating");
         await createReviewReq(rating, comment, id);
         setRating(0);
         setComment("");
@@ -98,7 +107,10 @@ export default function ProductDetail() {
     if (loading) return (<Loader />)
     return (
         <React.Fragment>
-            <Box sx={{ mt: 5 }}>
+            <Box sx={{ pt: 5 }}>
+
+            </Box>
+            <Paper sx={{ pb: 3, px: 2 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={5}>
                         <Carousel>
@@ -163,9 +175,9 @@ export default function ProductDetail() {
                         </Box>
                     </Grid>
                 </Grid>
-            </Box>
-            <Box sx={{ borderTop: 1, mt: 5 }}>
-                <Grid container spacing={2} sx={{ mt: 3 }}>
+            </Paper>
+            <Box sx={{ borderTop: 1, mt: 3 }}>
+                <Grid container spacing={2} >
                     {
                         recommendedProducts.map((product, index) => {
                             return (
@@ -206,9 +218,13 @@ export default function ProductDetail() {
                 >
                     Submit
                 </Button>
-                <Grid container spacing={2}>
-                    <Grid sx={{ mt: 1 }} item xs={12} md={8}>
-                        <Typography fontWeight='bold' align='center' variant='h4'> REVIEWS </Typography>
+                <Grid container spacing={2} sx={{ pb: 2 }}>
+                    <Grid sx={{ mt: 1 }} item xs={12} md={12} lg={12} >
+                        <Typography align="center" variant="h4"
+                            sx={{ color: "#000339", fontSize: "35px", fontWeight: "bold" }}
+                        >
+                            Reviews
+                        </Typography>
                         <Box>
                             {product.reviews && product.reviews.map((review, index) => {
                                 return (
@@ -216,8 +232,6 @@ export default function ProductDetail() {
                                 )
                             })}
                         </Box>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
                     </Grid>
                 </Grid>
             </Box>

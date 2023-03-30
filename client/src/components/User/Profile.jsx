@@ -35,7 +35,7 @@ const Profile = () => {
     )
     return (
         <>
-            <Grid container spacing={2} sx={{ mt: 4 }}>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
                 <Grid sx={{}} item xs={12} md={4}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Avatar sx={{ width: 200, height: 200, mt: 4 }} src={user.user.avatar.url} />
@@ -79,7 +79,9 @@ const Profile = () => {
                     </Box>
                 </Grid>
             </Grid>
-            <Typography variant="h6" sx={{ mt: 4 }}>
+            <Typography align='center'
+                sx={{ mt: 5, mb: 2, color: "#000339", fontSize: "25px", fontWeight: "bold" }}
+            >
                 My Orders
             </Typography>
             <MyOrders />

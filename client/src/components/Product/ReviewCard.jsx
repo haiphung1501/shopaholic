@@ -1,19 +1,19 @@
 import React from 'react';
 import { Avatar, Card, CardContent, CardHeader, Rating, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+
+import Loader from '../layout/Loader';
 function ReviewCard(props) {
     const { review } = props;
-    const { user } = useSelector((state) => state.user);
 
     const avatarStyle = {
         backgroundColor: '#2196f3',
     };
 
     return (
-        <Card style={{ maxWidth: 700 }}>
+        <Card>
             <CardHeader
-                avatar={<Avatar style={avatarStyle} src={user.user.avatar.url}></Avatar>}
-                title={user.user.name}
+                avatar={<Avatar style={avatarStyle} src={review.user.avatar.url}></Avatar>}
+                title={review.user.name}
                 subheader={review.date}
             />
             <CardContent>

@@ -16,18 +16,6 @@ import { userLoginRequest, userLoginSuccess, userLoginFailed } from '../../featu
 import { useDispatch, useSelector } from 'react-redux';
 import { userLoginReq } from '../../apis/index'
 import { Alert } from '@mui/material'
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -51,10 +39,7 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
     login(data.get('email'), data.get('password'));
   };
 
@@ -64,7 +49,8 @@ export default function Login() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            pt: 5,
+            pb: 15,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -130,8 +116,6 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
