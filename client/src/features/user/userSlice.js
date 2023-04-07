@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import { adminGetAllUsersReq, adminDeleteUserReq } from "../../apis/index";
+import {
+  adminGetAllUsersReq,
+  adminDeleteUserReq,
+  adminUpdateUserReq,
+} from "../../apis/index";
 
 export const adminGetAllUsers = createAsyncThunk(
   "user/adminGetAllUsers",
@@ -19,6 +23,18 @@ export const adminDeleteUser = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const { data } = await adminDeleteUserReq(id);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const adminUpdateUser = createAsyncThunk(
+  "user/adminUpdateUser",
+  async ({ id, userData }, thunkAPI) => {
+    try {
+      const { data } = await adminUpdateUserReq(id, userData);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -153,6 +169,16 @@ const userSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(adminDeleteUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(adminUpdateUser.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminUpdateUser.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(adminUpdateUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

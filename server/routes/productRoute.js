@@ -28,17 +28,14 @@ router.put(
   productController.createReview
 );
 
-router.delete(
-  "/review",
-  authController.isAuthenticatedUser,
-  productController.deleteReview
-);
+router.delete("/review", productController.deleteReview);
 
 router.get("/reviews", productController.getProductReviews);
 
 router.put(
   "/:id",
   authController.isAuthenticatedUser,
+  authController.authorizeRoles("admin"),
   productController.updateProduct
 );
 

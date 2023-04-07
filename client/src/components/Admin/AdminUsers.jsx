@@ -14,7 +14,11 @@ import {
     Grid,
     Backdrop,
     CircularProgress,
-    Snackbar
+    Snackbar,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
@@ -22,7 +26,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { adminGetAllUsers, adminDeleteUser } from '../../features/user/userSlice';
+import { adminGetAllUsers, adminDeleteUser, adminUpdateUser } from '../../features/user/userSlice';
 
 export default function AdminUsers() {
     const dispatch = useDispatch()
@@ -43,6 +47,15 @@ export default function AdminUsers() {
             console.log(error)
         }
     }
+    const handleChange = async (id, event) => {
+        try {
+            await dispatch(adminUpdateUser({ id, userData: { role: event.target.value } }))
+            await dispatch(adminGetAllUsers())
+            setSnackbarOpen(true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     if (loading) return (
         <Box sx={{
             display: 'flex',
@@ -55,16 +68,6 @@ export default function AdminUsers() {
     )
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-
-            <Grid container justifyContent="flex-end">
-                <IconButton>
-                    <Link to="/admin/products/new">
-                        <AddIcon />
-                    </Link>
-                </IconButton>
-            </Grid>
-
-
             <TableContainer sx={{ mt: 3 }} component={Paper}>
                 <Table sx={{ minWidth: 650 }}>
                     <TableHead>
@@ -85,23 +88,53 @@ export default function AdminUsers() {
                                 <TableCell >{item.email}</TableCell>
                                 <TableCell>{item.name}</TableCell>
                                 <TableCell align="center">
-                                    <Typography variant="subtitle"
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            fontWeight: 500,
-                                            width: 130,
-                                            color: item.role === 'admin' ? 'primary.main' : item.role === 'block' ? 'red' : 'green',
-                                        }}
-                                    >
-                                        {item.role}
-                                    </Typography>
+                                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                        <InputLabel fid="demo-simple-select-standard-label">Role</InputLabel>
+                                        <Select
+                                            id="demo-simple-select-standard"
+                                            defaultValue={item.role}
+                                            onChange={(e) => handleChange(item._id, e)}
+                                        >
+                                            <MenuItem value={"user"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'success.main'
+                                                    }}
+                                                >
+                                                    User
+                                                </Typography>
+                                            </MenuItem>
+                                            <MenuItem value={"admin"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'primary.main'
+                                                    }}
+                                                >
+                                                    Admin
+                                                </Typography>
+                                            </MenuItem>
+                                            <MenuItem value={"banned"}>
+                                                <Typography variant="subtitle"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        fontWeight: 500,
+                                                        width: 130,
+                                                        color: 'error.main'
+                                                    }}
+                                                >
+                                                    Banned
+                                                </Typography>
+                                            </MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </TableCell>
                                 <TableCell align="center" sx={{ p: 0 }}>
-                                    <IconButton size='small'>
-                                        <Link>
-                                            <EditIcon size='small' />
-                                        </Link>
-                                    </IconButton>
                                     <IconButton onClick={() => { onDeleteHandler(item._id) }} size='small'>
                                         <Link>
                                             <DeleteIcon size='small' />

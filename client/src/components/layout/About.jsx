@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const About = () => {
     return (
         <Container maxWidth="md">
-            <Box sx={{ pb: 5, pt: 4 }}>
+            <Box sx={{ pb: 25, pt: 4 }}>
                 <Typography variant="h2" align="center" gutterBottom>
                     Welcome to Shopaholic!
                 </Typography>

@@ -3,6 +3,7 @@ import {
   adminGetAllProductsReq,
   adminCreateProductReq,
   adminDeleteProductReq,
+  adminDeleteReviewReq,
 } from "../../apis/index";
 const initialState = {
   products: [],
@@ -14,6 +15,17 @@ export const adminDeleteProduct = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const { data } = await adminDeleteProductReq(id);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const adminDeleteReview = createAsyncThunk(
+  "product/AdminDeleteReview",
+  async (Data, thunkAPI) => {
+    try {
+      const { data } = await adminDeleteReviewReq(Data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -110,6 +122,16 @@ const productSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(adminDeleteProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(adminDeleteReview.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(adminDeleteReview.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(adminDeleteReview.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

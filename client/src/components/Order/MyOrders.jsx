@@ -30,6 +30,11 @@ function MyOrders() {
             <CircularProgress />
         </Box>
     )
+    if (ordersToList.length === 0) return (
+        <Typography align='center' sx={{ pb: 2 }}>
+            You have no order!
+        </Typography>
+    )
     return (
         <Paper sx={{ mb: 4, pb: 4 }}>
             <TableContainer>

@@ -11,7 +11,6 @@ import {
     Paper,
     IconButton,
     Box,
-    Grid,
     Backdrop,
     CircularProgress,
     Snackbar,
@@ -19,7 +18,6 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Button,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
@@ -160,11 +158,6 @@ export default function AdminOrders() {
                                     {`${item.totalPrice.toLocaleString()} đ`}
                                 </TableCell>
                                 <TableCell align="center" sx={{ p: 0 }}>
-                                    <IconButton size='small'>
-                                        <Link>
-                                            <EditIcon size='small' />
-                                        </Link>
-                                    </IconButton>
                                     <IconButton onClick={() => { onDeleteHandler(item._id) }} size='small'>
                                         <Link>
                                             <DeleteIcon size='small' />

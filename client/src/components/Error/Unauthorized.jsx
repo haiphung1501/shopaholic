@@ -21,7 +21,7 @@ function Unauthorized() {
             <Typography variant="body1" align="center" sx={{ mb: 4 }}>
                 Please login to continue.
             </Typography>
-            <Button variant="contained" component={Link} to="/login" sx={{ fontWeight: 'bold' }}>
+            <Button variant="contained" component={Link} to="/user/login" sx={{ fontWeight: 'bold' }}>
                 Login
             </Button>
         </Box>

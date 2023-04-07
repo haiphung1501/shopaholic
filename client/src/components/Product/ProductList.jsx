@@ -11,14 +11,16 @@ import { useParams } from 'react-router-dom'
 import Loader from '../layout/Loader'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useMediaQuery } from '@mui/material';
+import { useRef } from 'react'
 
 
 const pageSize = 6;
 
 export default function ProductList() {
+    const targetRef = useRef(null)
     const [page, setPage] = useState(1);
     const [categories, setCategories] = useState([])
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
     const [totalPage, setTotalPage] = useState(1);
     const [displayedProduct, setDisplayedProduct] = useState([]);
     const dispatch = useDispatch()
@@ -34,6 +36,12 @@ export default function ProductList() {
     const handleAccordionChange = () => {
         setExpanded(!expanded);
     };
+    const handleScroll = () => {
+        targetRef.current.scrollIntoView({
+            behavior: 'smooth', // Use smooth scrolling
+            block: 'start', // Scroll to the top of the element
+        });
+    }
 
     useEffect(() => {
         getAllCategory()
@@ -194,7 +202,7 @@ export default function ProductList() {
                         </Box>
                     </Accordion>
                 </Grid>
-                <Grid item xs={12} lg={10}>
+                <Grid item xs={12} lg={10} ref={targetRef}>
                     <Typography variant='h5' fontWeight='light'>
                         {keyword ? `Result for "${keyword}"` : 'All products'}
                     </Typography>
@@ -214,6 +222,7 @@ export default function ProductList() {
                             count={totalPage}
                             page={page}
                             onChange={(e, value) => setPage(value)}
+                            onClick={handleScroll}
                         />
                     </Grid>
                 </Grid>

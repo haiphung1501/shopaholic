@@ -233,3 +233,43 @@ export const adminUpdateOrderReq = async (id, orderData) => {
     config
   );
 };
+export const adminDeleteReviewReq = async (Data) => {
+  console.log("data", Data);
+  console.log("product id", Data.productId);
+
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.delete(
+    baseURL +
+      `/api/product/review?productId=${Data.productID}&id=${Data.reviewID}`,
+    config
+  );
+};
+
+export const adminUpdateProductReq = async (id, productData) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.put(baseURL + `/api/product/${id}`, productData, config);
+};
+
+export const adminUpdateUserReq = async (id, userData) => {
+  const config = {
+    headers: {
+      Cookies: document.cookie,
+    },
+    withCredentials: true,
+  };
+  return await axios.put(
+    `http://localhost:4000/api/user/admin/user/${id}`,
+    userData,
+    config
+  );
+};

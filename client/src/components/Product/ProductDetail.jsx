@@ -14,14 +14,17 @@ import ReviewCard from './ReviewCard'
 import Loader from '../layout/Loader'
 import { addToCartAction } from '../../features/cart/cartSlice'
 import ProductCard from './ProductCard'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function ProductDetail() {
     const dispatch = useDispatch();
     const { id } = useParams();
     const alert = useAlert();
+    const navigate = useNavigate();
     const { product, loading, error } = useSelector(state => state.productDetail)
     const { products } = useSelector(state => state.product)
+    const { isAuthenticated } = useSelector(state => state.user)
     const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(0);
@@ -55,6 +58,7 @@ export default function ProductDetail() {
         setQuantity(newQuantity);
     }
     const addToCartHandler = () => {
+        if (!isAuthenticated) return navigate('/user/login');
         dispatch(addToCartAction(id, quantity))
         alert.success('Product added to cart')
     }
