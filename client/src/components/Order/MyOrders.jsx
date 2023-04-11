@@ -1,12 +1,10 @@
-import { IconButton, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress, Box, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress, Box, Paper } from '@mui/material';
 import React from 'react';
-import { useAlert } from 'react-alert';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllOrders } from '../../features/order/orderSlice';
 import moment from 'moment';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function MyOrders() {

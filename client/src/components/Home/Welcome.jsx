@@ -41,7 +41,7 @@ const Welcome = () => {
         }}>
             <Container>
                 <CustomBox>
-                    <Slide direction="right" in='true' timeout={1000}>
+                    <Slide direction="right" in={true} timeout={1000}>
                         <Box sx={{ flex: "1" }}>
                             <Typography
                                 variant="body2"
@@ -76,7 +76,7 @@ const Welcome = () => {
                             </Link>
                         </Box>
                     </Slide>
-                    <Slide direction="left" in='true' timeout={1000}>
+                    <Slide direction="left" in={true} timeout={1000}>
                         <Box sx={{ flex: "1.25" }}>
                             <img
                                 src={heroImg}

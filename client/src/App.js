@@ -14,6 +14,7 @@ import Login from "./components/User/Login";
 import ProductDetail from "./components/Product/ProductDetail";
 import ProductList from "./components/Product/ProductList";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
+import BannedAccount from "./components/Error/BannedAccount";
 import AdminRoute from "./components/Route/AdminRoute";
 import LayoutRoute from "./components/Route/LayoutRoute";
 import Profile from "./components/User/Profile";
@@ -35,7 +36,7 @@ import AdminUsers from "./components/Admin/AdminUsers";
 
 import AdminReviews from "./components/Admin/AdminReviews";
 import AdminNewProduct from "./components/Admin/AdminNewProduct";
-
+import AdminUpdateProduct from "./components/Admin/AdminUpdateProduct";
 function App() {
   return (
     <BrowserRouter>
@@ -45,6 +46,7 @@ function App() {
         {/* Error Path */}
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<ForbiddenPage />} />
+        <Route path="/banned" element={<BannedAccount />} />
         <Route path="/" element={<Home />} />
 
         <Route exact path="/" element={<LayoutRoute />}>
@@ -72,6 +74,7 @@ function App() {
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/reviews" element={<AdminReviews />} />
+          <Route path="/admin/products/:id" element={<AdminUpdateProduct />} />
         </Route>
 
         <Route path="*" element={<ForbiddenPage />} />

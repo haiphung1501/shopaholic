@@ -2,16 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
     TextField,
     Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
     Box,
     Typography,
     Grid,
-    Paper,
     Autocomplete,
-    Backdrop,
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import { useForm, Controller } from "react-hook-form";
@@ -20,7 +14,7 @@ import { adminCreateProduct } from '../../features/product/productSlice'
 import { useDispatch } from 'react-redux';
 
 
-const AdminCreateProduct = () => {
+const AdminNewProduct = () => {
     const dispatch = useDispatch();
     const [previewImages, setPreviewImages] = useState([])
     const [selectedCategory, setSelectedCategory] = useState('')
@@ -86,7 +80,7 @@ const AdminCreateProduct = () => {
     return (
         <Box maxWidth={600} margin="auto" padding={2}>
             <Typography variant="h5" gutterBottom>
-                Create Product
+                Update Product
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
@@ -149,7 +143,7 @@ const AdminCreateProduct = () => {
 
                 />
                 <label htmlFor="picture-upload">
-                    <Button variant="contained" component="span">
+                    <Button sx={{ mt: 3 }} variant="contained" component="span">
                         <ImageIcon />
                     </Button>
                 </label>
@@ -180,4 +174,4 @@ const AdminCreateProduct = () => {
     );
 };
 
-export default AdminCreateProduct;
+export default AdminNewProduct;

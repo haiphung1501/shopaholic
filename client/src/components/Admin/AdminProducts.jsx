@@ -14,7 +14,8 @@ import {
     Grid,
     Backdrop,
     CircularProgress,
-    Snackbar
+    Snackbar,
+    Button
 } from '@mui/material'
 import { useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
@@ -59,11 +60,12 @@ export default function AdminProducts() {
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
             <Grid container justifyContent="flex-end">
-                <IconButton>
-                    <Link to="/admin/products/new">
-                        <AddIcon />
-                    </Link>
-                </IconButton>
+                <Link to="/admin/products/new" style={{ textDecoration: 'none' }}>
+                    <Button variant="contained">
+                        New Product
+                    </Button>
+                </Link>
+
             </Grid>
 
 
@@ -91,7 +93,7 @@ export default function AdminProducts() {
                                 </TableCell>
                                 <TableCell align="center" sx={{ p: 0 }}>
                                     <IconButton size='small'>
-                                        <Link>
+                                        <Link to={`/admin/products/${item._id}`} style={{ textDecoration: 'none' }}>
                                             <EditIcon size='small' />
                                         </Link>
                                     </IconButton>

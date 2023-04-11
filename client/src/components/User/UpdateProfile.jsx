@@ -106,9 +106,10 @@ export default function UpdateProfile() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                            defaultValue={user ? user.user.name : ""}
                             id="name"
                             label="Username"
-                            {...register("name", { required: true })}
+                            {...register("name")}
                             fullWidth
                         />
                         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>

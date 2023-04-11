@@ -3,17 +3,17 @@ import axios from "axios";
 const baseURL = "http://localhost:4000";
 
 export const getAllProductReq = (keyword = "") =>
-  axios.get(`http://localhost:4000/api/product?search=${keyword}`);
+  axios.get(baseURL + `/api/product?search=${keyword}`);
 
 export const getProductDetailReq = (id) =>
-  axios.get(`http://localhost:4000/api/product/${id}`);
+  axios.get(baseURL + `/api/product/${id}`);
 
 export const getAllCategory = () =>
-  axios.get("http://localhost:4000/api/product/category");
+  axios.get(baseURL + "/api/product/category");
 
 export const userLoginReq = async (email, password) => {
   return axios.post(
-    "http://localhost:4000/api/user/login",
+    baseURL + "/api/user/login",
     {
       email,
       password,
@@ -23,7 +23,7 @@ export const userLoginReq = async (email, password) => {
 };
 
 export const userRegisterReq = (name, email, password) => {
-  return axios.post("http://localhost:4000/api/user/register", {
+  return axios.post(baseURL + "/api/user/register", {
     name,
     email,
     password,
@@ -31,7 +31,7 @@ export const userRegisterReq = (name, email, password) => {
 };
 
 export const userLogoutReq = async () => {
-  return await axios.post("http://localhost:4000/api/user/logout", {
+  return await axios.post(baseURL + "/api/user/logout", {
     withCredentials: true,
   });
 };
@@ -44,7 +44,7 @@ export const userLoadReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get("http://localhost:4000/api/user/me", config);
+  return await axios.get(baseURL + "/api/user/me", config);
 };
 
 export const userUpdateReq = async (userData) => {
@@ -55,11 +55,7 @@ export const userUpdateReq = async (userData) => {
     },
     withCredentials: true,
   };
-  return await axios.post(
-    "http://localhost:4000/api/user/me/update",
-    userData,
-    config
-  );
+  return await axios.post(baseURL + "/api/user/me/update", userData, config);
 };
 
 export const userUpdatePasswordReq = async (userData) => {
@@ -72,14 +68,14 @@ export const userUpdatePasswordReq = async (userData) => {
   };
   console.log(userData);
   return await axios.post(
-    "http://localhost:4000/api/user/me/updatepassword",
+    baseURL + "/api/user/me/updatepassword",
     userData,
     config
   );
 };
 
 export const getOneProductReq = async (id) => {
-  return await axios.get(`http://localhost:4000/api/product/${id}`);
+  return await axios.get(baseURL + `/api/product/${id}`);
 };
 
 export const createOrderReq = async (order) => {
@@ -90,7 +86,7 @@ export const createOrderReq = async (order) => {
     },
     withCredentials: true,
   };
-  return await axios.post("http://localhost:4000/api/order/new", order, config);
+  return await axios.post(baseURL + "/api/order/new", order, config);
 };
 
 export const getMyOrdersReq = async () => {
@@ -101,7 +97,7 @@ export const getMyOrdersReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get("http://localhost:4000/api/order/me", config);
+  return await axios.get(baseURL + "/api/order/me", config);
 };
 
 export const getSingleOrderReq = async (id) => {
@@ -112,7 +108,7 @@ export const getSingleOrderReq = async (id) => {
     },
     withCredentials: true,
   };
-  return await axios.get(`http://localhost:4000/api/order/${id}`, config);
+  return await axios.get(baseURL + `/api/order/${id}`, config);
 };
 
 export const getAllOrdersReq = async () => {
@@ -123,7 +119,7 @@ export const getAllOrdersReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get("http://localhost:4000/api/order/me", config);
+  return await axios.get(baseURL + "/api/order/me", config);
 };
 
 export const createReviewReq = async (rating, comment, productId) => {
@@ -134,7 +130,7 @@ export const createReviewReq = async (rating, comment, productId) => {
     withCredentials: true,
   };
   return await axios.put(
-    "http://localhost:4000/api/product/review",
+    baseURL + "/api/product/review",
     { rating, comment, productId },
     config
   );
@@ -149,10 +145,7 @@ export const adminGetAllProductsReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get(
-    "http://localhost:4000/api/product/admin/products",
-    config
-  );
+  return await axios.get(baseURL + "/api/product/admin/products", config);
 };
 
 export const adminGetAllUsersReq = async () => {
@@ -172,10 +165,7 @@ export const adminGetAllOrdersReq = async () => {
     },
     withCredentials: true,
   };
-  return await axios.get(
-    "http://localhost:4000/api/order/admin/orders",
-    config
-  );
+  return await axios.get(baseURL + "/api/order/admin/orders", config);
 };
 export const adminCreateProductReq = async (productData) => {
   const config = {
@@ -184,11 +174,7 @@ export const adminCreateProductReq = async (productData) => {
     },
     withCredentials: true,
   };
-  return await axios.post(
-    "http://localhost:4000/api/product/",
-    productData,
-    config
-  );
+  return await axios.post(baseURL + "/api/product/", productData, config);
 };
 export const adminDeleteProductReq = async (id) => {
   const config = {
@@ -197,7 +183,7 @@ export const adminDeleteProductReq = async (id) => {
     },
     withCredentials: true,
   };
-  return await axios.delete(`http://localhost:4000/api/product/${id}`, config);
+  return await axios.delete(baseURL + `/api/product/${id}`, config);
 };
 export const adminDeleteOrderReq = async (id) => {
   const config = {
@@ -206,10 +192,7 @@ export const adminDeleteOrderReq = async (id) => {
     },
     withCredentials: true,
   };
-  return await axios.delete(
-    `http://localhost:4000/api/order/admin/order/${id}`,
-    config
-  );
+  return await axios.delete(baseURL + `/api/order/admin/order/${id}`, config);
 };
 export const adminDeleteUserReq = async (id) => {
   const config = {
@@ -234,9 +217,6 @@ export const adminUpdateOrderReq = async (id, orderData) => {
   );
 };
 export const adminDeleteReviewReq = async (Data) => {
-  console.log("data", Data);
-  console.log("product id", Data.productId);
-
   const config = {
     headers: {
       Cookies: document.cookie,
@@ -257,6 +237,7 @@ export const adminUpdateProductReq = async (id, productData) => {
     },
     withCredentials: true,
   };
+  console.log(productData);
   return await axios.put(baseURL + `/api/product/${id}`, productData, config);
 };
 
@@ -268,7 +249,7 @@ export const adminUpdateUserReq = async (id, userData) => {
     withCredentials: true,
   };
   return await axios.put(
-    `http://localhost:4000/api/user/admin/user/${id}`,
+    baseURL + `/api/user/admin/user/${id}`,
     userData,
     config
   );

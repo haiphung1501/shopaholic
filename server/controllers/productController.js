@@ -86,6 +86,7 @@ const productController = {
   updateProduct: async (req, res, next) => {
     try {
       const product = await Product.findById(req.params.id);
+      console.log("update product", req.body);
       await product.updateOne({ $set: req.body });
       res.status(200).json("Update Successfully");
     } catch (err) {

@@ -37,7 +37,6 @@ const orderController = {
   }),
 
   getSingleOrder: catchAsyncError(async (req, res, next) => {
-    console.log("Vo day");
     const order = await Order.findById(req.params.id).populate("user");
 
     if (!order) {

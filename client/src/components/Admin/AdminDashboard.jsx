@@ -86,6 +86,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
+    const [loading, setLoading] = React.useState(false)
     const [open, setOpen] = React.useState(true);
     const dispatch = useDispatch()
     const toggleDrawer = () => {
@@ -93,20 +94,27 @@ function DashboardContent() {
     };
 
     useEffect(() => {
-        dispatch(adminGetAllProduct())
-        dispatch(adminGetAllUsers())
-        dispatch(adminGetAllOrders())
-
+        setLoading(true)
+        const fetchAllData = async () => {
+            await Promise.all([
+                dispatch(adminGetAllProduct()),
+                dispatch(adminGetAllUsers()),
+                dispatch(adminGetAllOrders())
+            ])
+        }
+        fetchAllData()
+        setLoading(false)
 
     }, [dispatch])
 
-    const { products, loading } = useSelector(state => state.product)
+    const { products } = useSelector(state => state.product)
     const { users } = useSelector(state => state.user)
     const { orders } = useSelector(state => state.orders)
 
-    if (loading) {
+    if (loading || !products || !users || !orders) {
         return <CircularProgress />
     }
+
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>

@@ -4,7 +4,9 @@ const authController = require("../middlewares/auth");
 const router = express.Router();
 const multer = require("multer");
 
-const upload = multer();
+const upload = multer({
+  limits: { fieldSize: 25 * 1024 * 1024 },
+});
 
 router.post("/register", userController.createUser);
 

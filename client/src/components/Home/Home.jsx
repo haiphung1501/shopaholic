@@ -55,7 +55,7 @@ export default function Home() {
                         {
                             featuredProducts && featuredProducts.map((product, index) => {
                                 return (
-                                    <Grid item xs={12} sm={6} md={4} lg={3} >
+                                    <Grid key={index} item xs={12} sm={6} md={4} lg={3} >
                                         <ProductCardHome key={index} product={product} />
                                     </Grid>
                                 )
